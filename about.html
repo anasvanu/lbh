@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | LBH Bullion Gold Trading L.L.C | Dubai, UAE</title>
+  <meta name="description" content="Discover LBH Bullion Gold Trading L.L.C - Dubai's trusted physical precious metals dealing partner based in Al Ras, Deira.">
+  <link rel="icon" type="image/png" href="images/lbh-logo.png">
+
+  <!-- Tailwind CSS & Custom Styles -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory: '#FCFBF7',
+            cream: '#FAF7F2',
+            beige: { 50: '#FDFBF7', 100: '#F7F3EB', 200: '#EFE7D8', 300: '#E4D6BE' },
+            gold: { 400: '#D4AF37', 500: '#C5A059', 600: '#B08B40', 700: '#8C6C29' },
+            charcoal: '#1A1815',
+            mutedText: '#666057',
+            softBorder: '#E8E0D0',
+          },
+          fontFamily: {
+            serif: ['Cinzel', 'Cormorant Garamond', 'serif'],
+            cormorant: ['Cormorant Garamond', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            arabic: ['Amiri', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-ivory text-charcoal font-sans antialiased selection:bg-gold-500 selection:text-white">
+
+  <!-- TOP TICKER -->
+  <div class="bg-beige-100 border-b border-softBorder text-xs py-2 px-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-2 text-mutedText text-[11px]">
+        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gold-600"></i>
+        <span>Al Ras, Deira, Dubai, United Arab Emirates</span>
+      </div>
+      <div class="flex items-center space-x-4 text-xs font-mono">
+        <div class="flex items-center space-x-1.5 bg-white px-3 py-0.5 rounded border border-softBorder shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 live-pulse"></span>
+          <span class="text-gold-700 font-bold">XAU/USD:</span>
+          <span class="live-rate-gold font-bold text-charcoal">$2,714.60</span>
+        </div>
+        <div class="flex items-center space-x-1.5 bg-white px-3 py-0.5 rounded border border-softBorder shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 live-pulse"></span>
+          <span class="text-mutedText font-bold">XAG/USD:</span>
+          <span class="live-rate-silver font-bold text-charcoal">$32.18</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header class="sticky top-[37px] z-40 bg-white/95 backdrop-blur-md border-b border-softBorder shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <a href="index.html" class="flex items-center space-x-3 group">
+          <div class="w-11 h-11 rounded-full overflow-hidden border border-gold-400 p-0.5 bg-white shadow-sm group-hover:scale-105 transition-transform">
+            <img src="images/lbh-logo.png" alt="LBH Bullion Logo" class="w-full h-full object-cover rounded-full">
+          </div>
+          <div>
+            <div class="font-serif tracking-[0.18em] text-lg font-bold text-charcoal group-hover:text-gold-600 transition-colors">
+              LBH <span class="gold-gradient-text">BULLION</span>
+            </div>
+            <div class="text-[10px] tracking-widest text-mutedText uppercase">
+              Gold Trading L.L.C • <span class="font-arabic text-gold-600 text-xs">ال بي اتش بوليان</span>
+            </div>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
+          <a href="index.html" class="nav-link text-mutedText hover:text-gold-600">Home</a>
+          <a href="about.html" class="nav-link active">About Us</a>
+          <a href="services.html" class="nav-link text-mutedText hover:text-gold-600">Services</a>
+          <a href="rates.html" class="nav-link text-mutedText hover:text-gold-600">Live Rates</a>
+          <a href="contact.html" class="nav-link text-mutedText hover:text-gold-600">Contact</a>
+        </nav>
+
+        <a href="contact.html" class="hidden sm:inline-flex items-center px-5 py-2.5 text-xs font-semibold tracking-wider uppercase rounded-md bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 text-white shadow-sm hover:scale-105 transition-all">
+          Trade Desk
+        </a>
+
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-charcoal hover:text-gold-600">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-softBorder px-6 py-4 space-y-3 font-medium text-sm">
+      <a href="index.html" class="block py-2 text-mutedText hover:text-gold-600">Home</a>
+      <a href="about.html" class="block py-2 text-gold-700 font-bold">About Us</a>
+      <a href="services.html" class="block py-2 text-mutedText hover:text-gold-600">Services</a>
+      <a href="rates.html" class="block py-2 text-mutedText hover:text-gold-600">Live Rates</a>
+      <a href="contact.html" class="block py-2 text-mutedText hover:text-gold-600">Contact</a>
+    </div>
+  </header>
+
+  <!-- ABOUT HERO BANNER -->
+  <section class="pt-14 pb-16 bg-beige-50 border-b border-softBorder text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <span class="text-xs font-mono font-semibold tracking-widest uppercase text-gold-700 block mb-2">Heritage & Vision</span>
+      <h1 class="font-serif text-3xl sm:text-5xl font-bold text-charcoal mb-4">
+        About <span class="gold-gradient-text">LBH Bullion</span>
+      </h1>
+      <p class="text-sm sm:text-base text-mutedText max-w-xl mx-auto leading-relaxed">
+        Rooted in Dubai’s premier precious metals district, delivering integrity, physical purity, and institutional transparency.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTENT SECTION WITH DUBAI SKYSCRAPERS -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-6 rounded-2xl overflow-hidden border border-softBorder shadow-sm relative h-[400px] group">
+          <img src="images/dubai-skyline.jpg" alt="Dubai City Skyline" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6 text-white">
+            <h4 class="font-serif text-xl font-bold">The City of Gold</h4>
+            <p class="text-xs text-beige-100 mt-1">Connecting international bullion flows with Middle Eastern and global markets.</p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 space-y-6">
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-charcoal leading-snug">
+            A Resolute Commitment to <span class="gold-gradient-text">Physical Gold & Silver</span>
+          </h2>
+          <p class="text-sm text-mutedText leading-relaxed">
+            <strong class="text-charcoal font-semibold">LBH Bullion Gold Trading L.L.C</strong> operates from the historic precious metals trade corridor of Al Ras, Deira, Dubai. We serve corporate treasuries, family offices, jewelers, and investors who value tangible, unencumbered bullion ownership.
+          </p>
+          <p class="text-sm text-mutedText leading-relaxed">
+            We focus exclusively on physical delivery and verified counter settlement, sourcing directly from refiners meeting London Bullion Market Association (LBMA) and UAE Good Delivery specifications.
+          </p>
+
+          <div class="grid grid-cols-2 gap-4 pt-4 border-t border-softBorder font-sans text-xs">
+            <div class="p-4 rounded-xl bg-beige-50 border border-softBorder">
+              <div class="font-serif font-bold text-charcoal text-base mb-1">Dubai Hub</div>
+              <p class="text-mutedText">Headquartered in Al Ras, Deira with high-security physical vaulting access.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-beige-50 border border-softBorder">
+              <div class="font-serif font-bold text-charcoal text-base mb-1">Two-Way Trade</div>
+              <p class="text-mutedText">Guaranteed daily buyback liquidity at competitive spot exchange prices.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- VALUES SECTION -->
+  <section class="py-20 bg-beige-50 border-t border-softBorder">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-charcoal">
+          Our Guiding <span class="gold-gradient-text">Principles</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-mutedText mt-2">The foundation behind every transaction and client relationship.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        
+        <div class="p-8 rounded-2xl bg-white border border-softBorder text-center shadow-sm">
+          <div class="w-12 h-12 rounded-full bg-gold-500/10 mx-auto flex items-center justify-center text-gold-600 mb-5">
+            <i data-lucide="shield" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-serif text-lg font-bold text-charcoal mb-2">Unwavering Trust</h3>
+          <p class="text-xs text-mutedText leading-relaxed">
+            Transparent pricing linked directly to international spot exchanges with zero hidden spreads.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-2xl bg-white border border-softBorder text-center shadow-sm">
+          <div class="w-12 h-12 rounded-full bg-gold-500/10 mx-auto flex items-center justify-center text-gold-600 mb-5">
+            <i data-lucide="award" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-serif text-lg font-bold text-charcoal mb-2">Certified Purity</h3>
+          <p class="text-xs text-mutedText leading-relaxed">
+            Strict 999.9 fine gold and 999 fine silver standards accompanied by assayer certifications.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-2xl bg-white border border-softBorder text-center shadow-sm">
+          <div class="w-12 h-12 rounded-full bg-gold-500/10 mx-auto flex items-center justify-center text-gold-600 mb-5">
+            <i data-lucide="handshake" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-serif text-lg font-bold text-charcoal mb-2">Discretion & Speed</h3>
+          <p class="text-xs text-mutedText leading-relaxed">
+            Rapid execution and complete confidentiality for corporate and private bullion holdings.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-softBorder pt-12 pb-8 text-mutedText text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-softBorder">
+        <div class="flex items-center space-x-3">
+          <img src="images/lbh-logo.png" alt="LBH Logo" class="w-9 h-9 rounded-full object-cover">
+          <div>
+            <div class="font-serif font-bold text-charcoal tracking-wider">LBH BULLION GOLD TRADING L.L.C</div>
+            <div class="text-[11px] text-gold-600 font-arabic">ال بي اتش بوليان جولدن للتجارة ذ.م.م</div>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-6 text-xs">
+          <a href="index.html" class="hover:text-gold-600">Home</a>
+          <a href="about.html" class="text-gold-700 font-bold">About</a>
+          <a href="services.html" class="hover:text-gold-600">Services</a>
+          <a href="rates.html" class="hover:text-gold-600">Live Rates</a>
+          <a href="contact.html" class="hover:text-gold-600">Contact</a>
+        </div>
+
+        <div class="text-right text-xs">
+          <a href="tel:+97142626916" class="font-mono text-gold-700 font-bold hover:underline block">+971 4 262 6916</a>
+          <a href="mailto:lbhbullion@gmail.com" class="text-mutedText hover:underline">lbhbullion@gmail.com</a>
+        </div>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px]">
+        <div>Office No. 403, Al Dhagaya, Al Ras, Deira, Dubai, UAE</div>
+        <div>&copy; 2026 LBH Bullion Gold Trading L.L.C. All Rights Reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

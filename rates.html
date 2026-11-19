@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Spot Rates (USD/oz) | LBH Bullion | Dubai, UAE</title>
+  <meta name="description" content="Live Gold (XAU/USD) and Silver (XAG/USD) spot rates in USD per troy ounce with real-time updates and interactive trend chart.">
+  <link rel="icon" type="image/png" href="images/lbh-logo.png">
+
+  <!-- Tailwind CSS & Custom Styles -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory: '#FCFBF7',
+            cream: '#FAF7F2',
+            beige: { 50: '#FDFBF7', 100: '#F7F3EB', 200: '#EFE7D8', 300: '#E4D6BE' },
+            gold: { 400: '#D4AF37', 500: '#C5A059', 600: '#B08B40', 700: '#8C6C29' },
+            charcoal: '#1A1815',
+            mutedText: '#666057',
+            softBorder: '#E8E0D0',
+          },
+          fontFamily: {
+            serif: ['Cinzel', 'Cormorant Garamond', 'serif'],
+            cormorant: ['Cormorant Garamond', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            arabic: ['Amiri', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-ivory text-charcoal font-sans antialiased selection:bg-gold-500 selection:text-white">
+
+  <!-- TOP TICKER -->
+  <div class="bg-beige-100 border-b border-softBorder text-xs py-2 px-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-2 text-mutedText text-[11px]">
+        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gold-600"></i>
+        <span>Al Ras, Deira, Dubai, United Arab Emirates</span>
+      </div>
+      <div class="flex items-center space-x-4 text-xs font-mono">
+        <div class="flex items-center space-x-1.5 bg-white px-3 py-0.5 rounded border border-softBorder shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 live-pulse"></span>
+          <span class="text-gold-700 font-bold">XAU/USD:</span>
+          <span class="live-rate-gold font-bold text-charcoal">$2,714.60</span>
+        </div>
+        <div class="flex items-center space-x-1.5 bg-white px-3 py-0.5 rounded border border-softBorder shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 live-pulse"></span>
+          <span class="text-mutedText font-bold">XAG/USD:</span>
+          <span class="live-rate-silver font-bold text-charcoal">$32.18</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header class="sticky top-[37px] z-40 bg-white/95 backdrop-blur-md border-b border-softBorder shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <a href="index.html" class="flex items-center space-x-3 group">
+          <div class="w-11 h-11 rounded-full overflow-hidden border border-gold-400 p-0.5 bg-white shadow-sm group-hover:scale-105 transition-transform">
+            <img src="images/lbh-logo.png" alt="LBH Bullion Logo" class="w-full h-full object-cover rounded-full">
+          </div>
+          <div>
+            <div class="font-serif tracking-[0.18em] text-lg font-bold text-charcoal group-hover:text-gold-600 transition-colors">
+              LBH <span class="gold-gradient-text">BULLION</span>
+            </div>
+            <div class="text-[10px] tracking-widest text-mutedText uppercase">
+              Gold Trading L.L.C • <span class="font-arabic text-gold-600 text-xs">ال بي اتش بوليان</span>
+            </div>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
+          <a href="index.html" class="nav-link text-mutedText hover:text-gold-600">Home</a>
+          <a href="about.html" class="nav-link text-mutedText hover:text-gold-600">About Us</a>
+          <a href="services.html" class="nav-link text-mutedText hover:text-gold-600">Services</a>
+          <a href="rates.html" class="nav-link active">Live Rates</a>
+          <a href="contact.html" class="nav-link text-mutedText hover:text-gold-600">Contact</a>
+        </nav>
+
+        <a href="contact.html" class="hidden sm:inline-flex items-center px-5 py-2.5 text-xs font-semibold tracking-wider uppercase rounded-md bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 text-white shadow-sm hover:scale-105 transition-all">
+          Trade Desk
+        </a>
+
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-charcoal hover:text-gold-600">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-softBorder px-6 py-4 space-y-3 font-medium text-sm">
+      <a href="index.html" class="block py-2 text-mutedText hover:text-gold-600">Home</a>
+      <a href="about.html" class="block py-2 text-mutedText hover:text-gold-600">About Us</a>
+      <a href="services.html" class="block py-2 text-mutedText hover:text-gold-600">Services</a>
+      <a href="rates.html" class="block py-2 text-gold-700 font-bold">Live Rates</a>
+      <a href="contact.html" class="block py-2 text-mutedText hover:text-gold-600">Contact</a>
+    </div>
+  </header>
+
+  <!-- RATES HERO BANNER -->
+  <section class="pt-14 pb-16 bg-beige-50 border-b border-softBorder text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <span class="text-xs font-mono font-semibold tracking-widest uppercase text-gold-700 block mb-2">Live Commodities Market</span>
+      <h1 class="font-serif text-3xl sm:text-5xl font-bold text-charcoal mb-4">
+        Precious Metals <span class="gold-gradient-text">Spot Rates</span>
+      </h1>
+      <p class="text-sm sm:text-base text-mutedText max-w-xl mx-auto leading-relaxed">
+        Live international spot quotations in <strong class="text-charcoal font-semibold">USD per Troy Ounce (oz)</strong>. Direct indicative trading benchmarks.
+      </p>
+    </div>
+  </section>
+
+  <!-- LIVE RATES SECTION -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- RATE CARDS (USD/oz) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
+        
+        <!-- Gold Card -->
+        <div class="p-8 rounded-2xl luxury-card relative">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-9 h-9 rounded-full bg-gold-500/15 flex items-center justify-center text-gold-700 font-bold">
+                Au
+              </div>
+              <div>
+                <h3 class="font-serif text-lg font-bold text-charcoal">GOLD SPOT</h3>
+                <span class="font-mono text-xs text-mutedText">XAU / USD</span>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              +0.42% (+$11.35)
+            </span>
+          </div>
+
+          <div class="text-4xl sm:text-5xl font-serif font-bold text-charcoal font-mono tracking-tight my-4" id="rates-page-gold">
+            $2,714.60 <span class="text-base text-mutedText font-normal">/ oz</span>
+          </div>
+
+          <div class="pt-4 border-t border-softBorder flex items-center justify-between text-xs font-mono text-mutedText">
+            <span>Day Range: <strong class="text-charcoal" id="rates-gold-range">$2,703.15 – $2,722.40</strong></span>
+            <span>Spread: <strong class="text-gold-700">0.05%</strong></span>
+          </div>
+        </div>
+
+        <!-- Silver Card -->
+        <div class="p-8 rounded-2xl luxury-card relative">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 font-bold">
+                Ag
+              </div>
+              <div>
+                <h3 class="font-serif text-lg font-bold text-charcoal">SILVER SPOT</h3>
+                <span class="font-mono text-xs text-mutedText">XAG / USD</span>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              +0.28% (+$0.09)
+            </span>
+          </div>
+
+          <div class="text-4xl sm:text-5xl font-serif font-bold text-charcoal font-mono tracking-tight my-4" id="rates-page-silver">
+            $32.18 <span class="text-base text-mutedText font-normal">/ oz</span>
+          </div>
+
+          <div class="pt-4 border-t border-softBorder flex items-center justify-between text-xs font-mono text-mutedText">
+            <span>Day Range: <strong class="text-charcoal" id="rates-silver-range">$31.92 – $32.45</strong></span>
+            <span>Spread: <strong class="text-gold-700">0.08%</strong></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CHART & CALCULATOR ROW -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-5xl mx-auto">
+        
+        <!-- Interactive Chart -->
+        <div class="lg:col-span-7 p-6 sm:p-8 rounded-2xl bg-beige-50 border border-softBorder shadow-sm">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h4 class="font-serif text-base font-bold text-charcoal">Spot Trend Curve (USD / oz)</h4>
+              <p class="text-[11px] text-mutedText font-mono">LBMA London & New York Benchmark</p>
+            </div>
+
+            <div class="flex items-center space-x-2">
+              <div class="flex items-center rounded-md bg-white p-0.5 border border-softBorder text-xs font-mono">
+                <button onclick="setChartMetal('gold')" id="chart-metal-gold" class="px-3 py-1 rounded bg-gold-600 text-white font-bold">XAU</button>
+                <button onclick="setChartMetal('silver')" id="chart-metal-silver" class="px-3 py-1 rounded text-mutedText hover:text-charcoal">XAG</button>
+              </div>
+
+              <div class="flex items-center rounded-md bg-white p-0.5 border border-softBorder text-xs font-mono">
+                <button onclick="setChartRange('24H')" class="time-btn px-2 py-1 rounded text-gold-700 font-bold bg-beige-100" data-range="24H">24H</button>
+                <button onclick="setChartRange('7D')" class="time-btn px-2 py-1 rounded text-mutedText" data-range="7D">7D</button>
+                <button onclick="setChartRange('30D')" class="time-btn px-2 py-1 rounded text-mutedText" data-range="30D">30D</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative w-full h-[260px]">
+            <canvas id="spotChartCanvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Spot Calculator (Ounces to USD) -->
+        <div class="lg:col-span-5 p-6 sm:p-8 rounded-2xl bg-white border border-softBorder shadow-sm">
+          <h4 class="font-serif text-base font-bold text-charcoal mb-1">Spot Position Calculator</h4>
+          <p class="text-xs text-mutedText mb-5">Estimate trade valuation in USD per Troy Ounce.</p>
+
+          <div class="space-y-4 text-xs font-mono">
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Metal Selection</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" onclick="setCalc('gold')" id="btn-calc-gold" class="py-2 px-3 rounded-md border border-gold-600 bg-gold-500/10 text-gold-700 font-bold text-center">Gold (XAU)</button>
+                <button type="button" onclick="setCalc('silver')" id="btn-calc-silver" class="py-2 px-3 rounded-md border border-softBorder bg-beige-50 text-mutedText text-center">Silver (XAG)</button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Ounces (oz) Volume</label>
+              <input type="number" id="calc-qty" value="10" min="0.1" step="any" oninput="runCalculation()" class="w-full bg-beige-50 border border-softBorder rounded-md px-3 py-2 text-charcoal font-mono text-sm focus:border-gold-500 focus:outline-none">
+            </div>
+
+            <div class="p-4 rounded-xl bg-beige-50 border border-softBorder space-y-2 font-mono">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-mutedText">Spot Market Value:</span>
+                <span id="calc-val-usd" class="text-charcoal font-bold text-base">$27,146.00 USD</span>
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-mutedText">Guaranteed Buyback:</span>
+                <span id="calc-val-buyback" class="text-gold-700 font-bold text-sm">$26,874.54 USD</span>
+              </div>
+            </div>
+
+            <a href="contact.html" class="block w-full py-3 rounded-md bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs text-center uppercase tracking-wider transition-all shadow-sm">
+              Execute Trade Order
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-softBorder pt-12 pb-8 text-mutedText text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-softBorder">
+        <div class="flex items-center space-x-3">
+          <img src="images/lbh-logo.png" alt="LBH Logo" class="w-9 h-9 rounded-full object-cover">
+          <div>
+            <div class="font-serif font-bold text-charcoal tracking-wider">LBH BULLION GOLD TRADING L.L.C</div>
+            <div class="text-[11px] text-gold-600 font-arabic">ال بي اتش بوليان جولدن للتجارة ذ.م.م</div>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-6 text-xs">
+          <a href="index.html" class="hover:text-gold-600">Home</a>
+          <a href="about.html" class="hover:text-gold-600">About</a>
+          <a href="services.html" class="hover:text-gold-600">Services</a>
+          <a href="rates.html" class="text-gold-700 font-bold">Live Rates</a>
+          <a href="contact.html" class="hover:text-gold-600">Contact</a>
+        </div>
+
+        <div class="text-right text-xs">
+          <a href="tel:+97142626916" class="font-mono text-gold-700 font-bold hover:underline block">+971 4 262 6916</a>
+          <a href="mailto:lbhbullion@gmail.com" class="text-mutedText hover:underline">lbhbullion@gmail.com</a>
+        </div>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px]">
+        <div>Office No. 403, Al Dhagaya, Al Ras, Deira, Dubai, UAE</div>
+        <div>&copy; 2026 LBH Bullion Gold Trading L.L.C. All Rights Reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    let currentMetal = 'gold';
+    let currentRange = '24H';
+    let calcMetalType = 'gold';
+    let chartInstance = null;
+
+    function onRatesUpdated() {
+      const gEl = document.getElementById('rates-page-gold');
+      const sEl = document.getElementById('rates-page-silver');
+      if (gEl) gEl.innerHTML = `$${SPOT_DATA.goldUsdOz.toFixed(2)} <span class="text-base text-mutedText font-normal">/ oz</span>`;
+      if (sEl) sEl.innerHTML = `$${SPOT_DATA.silverUsdOz.toFixed(2)} <span class="text-base text-mutedText font-normal">/ oz</span>`;
+      runCalculation();
+    }
+
+    function setCalc(metal) {
+      calcMetalType = metal;
+      const g = document.getElementById('btn-calc-gold');
+      const s = document.getElementById('btn-calc-silver');
+      if (metal === 'gold') {
+        g.className = "py-2 px-3 rounded-md border border-gold-600 bg-gold-500/10 text-gold-700 font-bold text-center";
+        s.className = "py-2 px-3 rounded-md border border-softBorder bg-beige-50 text-mutedText text-center";
+      } else {
+        s.className = "py-2 px-3 rounded-md border border-charcoal bg-white text-charcoal font-bold text-center";
+        g.className = "py-2 px-3 rounded-md border border-softBorder bg-beige-50 text-mutedText text-center";
+      }
+      runCalculation();
+    }
+
+    function runCalculation() {
+      const oz = parseFloat(document.getElementById('calc-qty').value) || 0;
+      const rate = calcMetalType === 'gold' ? SPOT_DATA.goldUsdOz : SPOT_DATA.silverUsdOz;
+      const total = oz * rate;
+      const buyback = total * (calcMetalType === 'gold' ? 0.990 : 0.965);
+
+      const valEl = document.getElementById('calc-val-usd');
+      const bbEl = document.getElementById('calc-val-buyback');
+      if (valEl) valEl.innerText = "$" + total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " USD";
+      if (bbEl) bbEl.innerText = "$" + buyback.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " USD";
+    }
+
+    function initRatesChart() {
+      const ctx = document.getElementById('spotChartCanvas').getContext('2d');
+      const gradient = ctx.createLinearGradient(0, 0, 0, 240);
+      gradient.addColorStop(0, 'rgba(197, 160, 89, 0.3)');
+      gradient.addColorStop(1, 'rgba(197, 160, 89, 0.0)');
+
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['09:00', '11:00', '13:00', '15:00', '17:00', '19:00', 'Current'],
+          datasets: [{
+            label: 'Gold (XAU/USD)',
+            data: [2706.50, 2710.20, 2708.80, 2712.40, 2715.10, 2713.80, 2714.60],
+            borderColor: '#B08B40',
+            backgroundColor: gradient,
+            borderWidth: 2,
+            tension: 0.35,
+            fill: true,
+            pointBackgroundColor: '#C5A059',
+            pointBorderColor: '#FFFFFF',
+            pointRadius: 3,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#1A1815',
+              callbacks: { label: (c) => `$${c.parsed.y.toFixed(2)} / oz` }
+            }
+          },
+          scales: {
+            x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#666057', font: { family: 'JetBrains Mono', size: 10 } } },
+            y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#666057', font: { family: 'JetBrains Mono', size: 10 } } }
+          }
+        }
+      });
+    }
+
+    function setChartMetal(metal) {
+      currentMetal = metal;
+      const g = document.getElementById('chart-metal-gold');
+      const s = document.getElementById('chart-metal-silver');
+      if (metal === 'gold') {
+        g.className = "px-3 py-1 rounded bg-gold-600 text-white font-bold";
+        s.className = "px-3 py-1 rounded text-mutedText hover:text-charcoal";
+      } else {
+        s.className = "px-3 py-1 rounded bg-charcoal text-white font-bold";
+        g.className = "px-3 py-1 rounded text-mutedText hover:text-charcoal";
+      }
+      updateChart();
+    }
+
+    function setChartRange(range) {
+      currentRange = range;
+      document.querySelectorAll('.time-btn').forEach(b => {
+        b.className = b.getAttribute('data-range') === range
+          ? "time-btn px-2 py-1 rounded text-gold-700 font-bold bg-beige-100"
+          : "time-btn px-2 py-1 rounded text-mutedText";
+      });
+      updateChart();
+    }
+
+    function updateChart() {
+      if (!chartInstance) return;
+      const isGold = currentMetal === 'gold';
+      const base = isGold ? SPOT_DATA.goldUsdOz : SPOT_DATA.silverUsdOz;
+      chartInstance.data.datasets[0].label = isGold ? 'Gold (XAU/USD)' : 'Silver (XAG/USD)';
+      chartInstance.data.datasets[0].borderColor = isGold ? '#B08B40' : '#475569';
+      chartInstance.data.datasets[0].data = [base * 0.995, base * 0.998, base * 1.001, base * 1.003, base];
+      chartInstance.data.labels = ['04:00', '08:00', '12:00', '16:00', 'Live'];
+      chartInstance.update();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      onRatesUpdated();
+      initRatesChart();
+    });
+  </script>
+</body>
+</html>
