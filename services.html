@@ -46,17 +46,29 @@
         <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gold-600"></i>
         <span>Al Ras, Deira, Dubai, United Arab Emirates</span>
       </div>
-      <div class="flex items-center space-x-4 text-xs font-mono">
-        <div class="flex items-center space-x-1.5 bg-white px-3 py-0.5 rounded border border-softBorder shadow-sm">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 live-pulse"></span>
+      <div class="flex items-center space-x-3 sm:space-x-4 text-xs font-mono">
+        <div class="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded border border-softBorder shadow-sm transition-all">
+          <span class="relative flex h-2 w-2">
+            <span class="radar-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
           <span class="text-gold-700 font-bold">XAU/USD:</span>
-          <span class="live-rate-gold font-bold text-charcoal">$2,714.60</span>
+          <span class="live-rate-gold font-bold text-charcoal px-1">$2,714.60</span>
+          <span class="live-badge-gold px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700">▲ +0.42%</span>
         </div>
-        <div class="flex items-center space-x-1.5 bg-white px-3 py-0.5 rounded border border-softBorder shadow-sm">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 live-pulse"></span>
+        <div class="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded border border-softBorder shadow-sm transition-all">
+          <span class="relative flex h-2 w-2">
+            <span class="radar-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
           <span class="text-mutedText font-bold">XAG/USD:</span>
-          <span class="live-rate-silver font-bold text-charcoal">$32.18</span>
+          <span class="live-rate-silver font-bold text-charcoal px-1">$32.18</span>
+          <span class="live-badge-silver px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700">▲ +0.28%</span>
         </div>
+        <span class="hidden md:inline-flex items-center text-[10px] font-mono text-mutedText pl-2 border-l border-softBorder">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 live-pulse"></span>
+          LIVE FEED • <span class="live-market-clock font-bold text-charcoal ml-1">GST</span>
+        </span>
       </div>
     </div>
   </div>

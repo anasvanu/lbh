@@ -48,6 +48,39 @@ html {
   50% { opacity: 0.5; transform: scale(1.15); }
 }
 
+/* Live Market Price Flashing */
+@keyframes greenFlash {
+  0% { color: #047857; background-color: rgba(16, 185, 129, 0.22); transform: scale(1.03); }
+  50% { color: #059669; background-color: rgba(16, 185, 129, 0.12); }
+  100% { color: inherit; background-color: transparent; transform: scale(1); }
+}
+
+@keyframes redFlash {
+  0% { color: #B91C1C; background-color: rgba(239, 68, 68, 0.22); transform: scale(1.03); }
+  50% { color: #DC2626; background-color: rgba(239, 68, 68, 0.12); }
+  100% { color: inherit; background-color: transparent; transform: scale(1); }
+}
+
+.flash-up {
+  animation: greenFlash 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 4px;
+}
+
+.flash-down {
+  animation: redFlash 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 4px;
+}
+
+/* Radar Ping Ripple */
+@keyframes pingRadar {
+  0% { transform: scale(0.9); opacity: 0.9; }
+  75%, 100% { transform: scale(2.4); opacity: 0; }
+}
+
+.radar-ping {
+  animation: pingRadar 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
