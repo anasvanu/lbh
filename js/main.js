@@ -148,10 +148,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const mobileBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
+  const mobileCloseBtn = document.getElementById('mobile-menu-close');
 
-  if (mobileBtn && mobileMenu) {
-    mobileBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+  function openMobileMenu() {
+    if (!mobileMenu) return;
+    mobileMenu.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function closeMobileMenu() {
+    if (!mobileMenu) return;
+    mobileMenu.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  if (mobileBtn) {
+    mobileBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openMobileMenu();
+    });
+  }
+
+  if (mobileCloseBtn) {
+    mobileCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeMobileMenu();
+    });
+  }
+
+  if (mobileMenu) {
+    // Close when tapping backdrop
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu) {
+        closeMobileMenu();
+      }
+    });
+
+    // Close when clicking any nav link
+    const links = mobileMenu.querySelectorAll('a');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        closeMobileMenu();
+      });
     });
   }
 });

@@ -38,57 +38,65 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body class="bg-ivory text-charcoal font-sans antialiased selection:bg-gold-500 selection:text-white">
+<body class="bg-ivory text-charcoal font-sans antialiased selection:bg-gold-500 selection:text-white pb-20 md:pb-0">
 
-  <!-- TOP TICKER -->
-  <div class="bg-beige-100 border-b border-softBorder text-xs py-2 px-4 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-2 text-mutedText text-[11px]">
-        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gold-600"></i>
-        <span>Al Ras, Deira, Dubai, United Arab Emirates</span>
+  <!-- TOP LIVE RATE TICKER (USD/oz) -->
+  <div class="bg-beige-100/95 border-b border-softBorder text-xs py-1.5 px-3 sm:px-4 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
+      <!-- Location on Desktop -->
+      <div class="hidden sm:flex items-center space-x-2 text-mutedText text-[11px] truncate">
+        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gold-600 shrink-0"></i>
+        <span class="truncate">Al Ras, Deira, Dubai, United Arab Emirates</span>
       </div>
-      <div class="flex items-center space-x-3 sm:space-x-4 text-xs font-mono">
-        <div class="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded border border-softBorder shadow-sm transition-all">
+
+      <!-- Live Spot Badges (Single Row on Mobile) -->
+      <div class="flex items-center justify-between w-full sm:w-auto space-x-2 sm:space-x-3 text-xs font-mono">
+        <!-- Gold Live Badge -->
+        <div class="flex items-center space-x-1 sm:space-x-1.5 bg-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded border border-softBorder shadow-sm">
           <span class="relative flex h-2 w-2">
             <span class="radar-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span class="text-gold-700 font-bold">XAU/USD:</span>
-          <span class="live-rate-gold font-bold text-charcoal px-1">$2,714.60</span>
-          <span class="live-badge-gold px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700">▲ +0.42%</span>
+          <span class="text-gold-700 font-bold text-[11px] sm:text-xs">XAU:</span>
+          <span class="live-rate-gold font-bold text-charcoal text-[11px] sm:text-xs px-0.5 sm:px-1">$2,714.60</span>
+          <span class="live-badge-gold px-1 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700">▲ +0.42%</span>
         </div>
-        <div class="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded border border-softBorder shadow-sm transition-all">
+
+        <!-- Silver Live Badge -->
+        <div class="flex items-center space-x-1 sm:space-x-1.5 bg-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded border border-softBorder shadow-sm">
           <span class="relative flex h-2 w-2">
             <span class="radar-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span class="text-mutedText font-bold">XAG/USD:</span>
-          <span class="live-rate-silver font-bold text-charcoal px-1">$32.18</span>
-          <span class="live-badge-silver px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700">▲ +0.28%</span>
+          <span class="text-mutedText font-bold text-[11px] sm:text-xs">XAG:</span>
+          <span class="live-rate-silver font-bold text-charcoal text-[11px] sm:text-xs px-0.5 sm:px-1">$32.18</span>
+          <span class="live-badge-silver px-1 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700">▲ +0.28%</span>
         </div>
+
+        <!-- Live Clock -->
         <span class="hidden md:inline-flex items-center text-[10px] font-mono text-mutedText pl-2 border-l border-softBorder">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 live-pulse"></span>
-          LIVE FEED • <span class="live-market-clock font-bold text-charcoal ml-1">GST</span>
+          LIVE • <span class="live-market-clock font-bold text-charcoal ml-1">GST</span>
         </span>
       </div>
     </div>
   </div>
 
   <!-- NAVIGATION -->
-  <header class="sticky top-[37px] z-40 bg-white/95 backdrop-blur-md border-b border-softBorder shadow-sm">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-softBorder shadow-sm transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
+      <div class="flex items-center justify-between h-16 sm:h-20">
         
-        <a href="index.html" class="flex items-center space-x-3 group">
-          <div class="w-11 h-11 rounded-full overflow-hidden border border-gold-400 p-0.5 bg-white shadow-sm group-hover:scale-105 transition-transform">
+        <a href="index.html" class="flex items-center space-x-2.5 sm:space-x-3 group">
+          <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-gold-400 p-0.5 bg-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
             <img src="images/lbh-logo.png" alt="LBH Bullion Logo" class="w-full h-full object-cover rounded-full">
           </div>
           <div>
-            <div class="font-serif tracking-[0.18em] text-lg font-bold text-charcoal group-hover:text-gold-600 transition-colors">
+            <div class="font-serif tracking-[0.12em] sm:tracking-[0.18em] text-base sm:text-lg font-bold text-charcoal group-hover:text-gold-600 transition-colors leading-tight">
               LBH <span class="gold-gradient-text">BULLION</span>
             </div>
-            <div class="text-[10px] tracking-widest text-mutedText uppercase">
-              Gold Trading L.L.C • <span class="font-arabic text-gold-600 text-xs">ال بي اتش بوليان</span>
+            <div class="text-[9px] sm:text-[10px] tracking-wider sm:tracking-widest text-mutedText uppercase">
+              Gold Trading L.L.C <span class="hidden xs:inline">• <span class="font-arabic text-gold-600 text-xs">ال بي اتش بوليان</span></span>
             </div>
           </div>
         </a>
@@ -101,22 +109,98 @@
           <a href="contact.html" class="nav-link text-mutedText hover:text-gold-600">Contact</a>
         </nav>
 
-        <a href="contact.html" class="hidden sm:inline-flex items-center px-5 py-2.5 text-xs font-semibold tracking-wider uppercase rounded-md bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 text-white shadow-sm hover:scale-105 transition-all">
-          Trade Desk
-        </a>
+        <!-- CTA & Mobile Trigger -->
+        <div class="flex items-center space-x-2 sm:space-x-3">
+          <a href="tel:+97142626916" class="md:hidden p-2 rounded-lg bg-gold-500/10 text-gold-700 hover:bg-gold-500/20" title="Call Trading Desk">
+            <i data-lucide="phone" class="w-4 h-4"></i>
+          </a>
+          <a href="contact.html" class="hidden sm:inline-flex items-center px-5 py-2.5 text-xs font-semibold tracking-wider uppercase rounded-md bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 text-white shadow-sm hover:scale-105 transition-all">
+            Trade Desk
+          </a>
+          <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-charcoal hover:bg-beige-100 hover:text-gold-600 focus:outline-none transition-colors" aria-label="Toggle Navigation Menu">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
 
-        <button id="mobile-menu-btn" class="md:hidden p-2 text-charcoal hover:text-gold-600">
-          <i data-lucide="menu" class="w-6 h-6"></i>
-        </button>
       </div>
     </div>
 
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-softBorder px-6 py-4 space-y-3 font-medium text-sm">
-      <a href="index.html" class="block py-2 text-mutedText hover:text-gold-600">Home</a>
-      <a href="about.html" class="block py-2 text-mutedText hover:text-gold-600">About Us</a>
-      <a href="services.html" class="block py-2 text-mutedText hover:text-gold-600">Services</a>
-      <a href="rates.html" class="block py-2 text-gold-700 font-bold">Live Rates</a>
-      <a href="contact.html" class="block py-2 text-mutedText hover:text-gold-600">Contact</a>
+    <!-- MOBILE LUXURY DRAWER (Overlay & Menu) -->
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-50 bg-charcoal/60 backdrop-blur-sm transition-opacity">
+      <div class="fixed inset-y-0 right-0 w-[85%] max-w-sm bg-white shadow-2xl flex flex-col justify-between overflow-y-auto animate-slide-left">
+        
+        <!-- Drawer Header -->
+        <div class="p-5 border-b border-softBorder flex items-center justify-between bg-beige-50">
+          <div class="flex items-center space-x-2.5">
+            <img src="images/lbh-logo.png" alt="LBH Bullion" class="w-8 h-8 rounded-full border border-gold-400 p-0.5">
+            <div>
+              <div class="font-serif font-bold text-sm tracking-wider text-charcoal">LBH BULLION</div>
+              <div class="text-[9px] text-gold-600 font-arabic">ال بي اتش بوليان جولدن</div>
+            </div>
+          </div>
+          <button id="mobile-menu-close" class="p-2 rounded-lg text-mutedText hover:text-charcoal hover:bg-beige-100" aria-label="Close Menu">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Live Spot Widget inside Drawer -->
+        <div class="mx-5 my-4 p-3 rounded-xl bg-beige-100/70 border border-softBorder text-xs font-mono">
+          <div class="flex items-center justify-between text-[11px] text-mutedText mb-1.5">
+            <span class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 live-pulse"></span>Live Spot (USD/oz)</span>
+            <span class="live-market-clock font-bold text-charcoal">GST</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-center">
+            <div class="bg-white p-2 rounded-lg border border-softBorder">
+              <span class="text-[10px] text-mutedText block">Gold</span>
+              <span class="live-rate-gold font-bold text-charcoal text-xs">$2,714.60</span>
+            </div>
+            <div class="bg-white p-2 rounded-lg border border-softBorder">
+              <span class="text-[10px] text-mutedText block">Silver</span>
+              <span class="live-rate-silver font-bold text-charcoal text-xs">$32.18</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drawer Links -->
+        <div class="px-5 py-2 space-y-1 text-sm font-medium">
+          <a href="index.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-beige-50 text-charcoal">
+            <i data-lucide="home" class="w-4 h-4 text-gold-600"></i>
+            <span>Home</span>
+          </a>
+          <a href="about.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-beige-50 text-charcoal">
+            <i data-lucide="shield-check" class="w-4 h-4 text-gold-600"></i>
+            <span>About Us</span>
+          </a>
+          <a href="services.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-beige-50 text-charcoal">
+            <i data-lucide="layers" class="w-4 h-4 text-gold-600"></i>
+            <span>Services</span>
+          </a>
+          <a href="rates.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg bg-beige-100 text-gold-700 font-bold">
+            <i data-lucide="trending-up" class="w-4 h-4 text-gold-600"></i>
+            <span>Live Spot Rates</span>
+          </a>
+          <a href="contact.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-beige-50 text-charcoal">
+            <i data-lucide="mail" class="w-4 h-4 text-gold-600"></i>
+            <span>Contact Desk</span>
+          </a>
+        </div>
+
+        <!-- Drawer Footer Contact Buttons -->
+        <div class="p-5 border-t border-softBorder bg-beige-50 space-y-2.5 mt-auto">
+          <a href="tel:+97142626916" class="flex items-center justify-center space-x-2 w-full py-3 rounded-lg bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs tracking-wider uppercase shadow-sm">
+            <i data-lucide="phone" class="w-4 h-4"></i>
+            <span>Call Trading Desk</span>
+          </a>
+          <a href="mailto:lbhbullion@gmail.com" class="flex items-center justify-center space-x-2 w-full py-2.5 rounded-lg bg-white border border-softBorder text-charcoal text-xs font-semibold hover:bg-beige-100">
+            <i data-lucide="send" class="w-4 h-4 text-gold-600"></i>
+            <span>lbhbullion@gmail.com</span>
+          </a>
+          <p class="text-[10px] text-mutedText text-center font-sans">
+            Office No. 403, Al Dhagaya, Al Ras, Deira, Dubai
+          </p>
+        </div>
+
+      </div>
     </div>
   </header>
 
@@ -141,54 +225,54 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
         
         <!-- Gold Card -->
-        <div class="p-8 rounded-2xl luxury-card relative">
+        <div class="p-5 sm:p-8 rounded-2xl luxury-card relative">
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center space-x-3">
-              <div class="w-9 h-9 rounded-full bg-gold-500/15 flex items-center justify-center text-gold-700 font-bold">
+              <div class="w-9 h-9 rounded-full bg-gold-500/15 flex items-center justify-center text-gold-700 font-bold shrink-0">
                 Au
               </div>
               <div>
-                <h3 class="font-serif text-lg font-bold text-charcoal">GOLD SPOT</h3>
+                <h3 class="font-serif text-lg font-bold text-charcoal leading-tight">GOLD SPOT</h3>
                 <span class="font-mono text-xs text-mutedText">XAU / USD</span>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              +0.42% (+$11.35)
+            <span class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[11px] sm:text-xs font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
+              +0.42%
             </span>
           </div>
 
-          <div class="text-4xl sm:text-5xl font-serif font-bold text-charcoal font-mono tracking-tight my-4" id="rates-page-gold">
+          <div class="text-3xl sm:text-5xl font-serif font-bold text-charcoal font-mono tracking-tight my-4" id="rates-page-gold">
             $2,714.60 <span class="text-base text-mutedText font-normal">/ oz</span>
           </div>
 
-          <div class="pt-4 border-t border-softBorder flex items-center justify-between text-xs font-mono text-mutedText">
+          <div class="pt-4 border-t border-softBorder flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs font-mono text-mutedText">
             <span>Day Range: <strong class="text-charcoal" id="rates-gold-range">$2,703.15 – $2,722.40</strong></span>
             <span>Spread: <strong class="text-gold-700">0.05%</strong></span>
           </div>
         </div>
 
         <!-- Silver Card -->
-        <div class="p-8 rounded-2xl luxury-card relative">
+        <div class="p-5 sm:p-8 rounded-2xl luxury-card relative">
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center space-x-3">
-              <div class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 font-bold">
+              <div class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 font-bold shrink-0">
                 Ag
               </div>
               <div>
-                <h3 class="font-serif text-lg font-bold text-charcoal">SILVER SPOT</h3>
+                <h3 class="font-serif text-lg font-bold text-charcoal leading-tight">SILVER SPOT</h3>
                 <span class="font-mono text-xs text-mutedText">XAG / USD</span>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              +0.28% (+$0.09)
+            <span class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[11px] sm:text-xs font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
+              +0.28%
             </span>
           </div>
 
-          <div class="text-4xl sm:text-5xl font-serif font-bold text-charcoal font-mono tracking-tight my-4" id="rates-page-silver">
+          <div class="text-3xl sm:text-5xl font-serif font-bold text-charcoal font-mono tracking-tight my-4" id="rates-page-silver">
             $32.18 <span class="text-base text-mutedText font-normal">/ oz</span>
           </div>
 
-          <div class="pt-4 border-t border-softBorder flex items-center justify-between text-xs font-mono text-mutedText">
+          <div class="pt-4 border-t border-softBorder flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs font-mono text-mutedText">
             <span>Day Range: <strong class="text-charcoal" id="rates-silver-range">$31.92 – $32.45</strong></span>
             <span>Spread: <strong class="text-gold-700">0.08%</strong></span>
           </div>
@@ -268,9 +352,9 @@
   </section>
 
   <!-- FOOTER -->
-  <footer class="bg-white border-t border-softBorder pt-12 pb-8 text-mutedText text-xs">
+  <footer class="bg-white border-t border-softBorder pt-10 pb-12 text-mutedText text-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-softBorder">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-softBorder text-center md:text-left">
         <div class="flex items-center space-x-3">
           <img src="images/lbh-logo.png" alt="LBH Logo" class="w-9 h-9 rounded-full object-cover">
           <div>
@@ -279,7 +363,7 @@
           </div>
         </div>
 
-        <div class="flex items-center space-x-6 text-xs">
+        <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs">
           <a href="index.html" class="hover:text-gold-600">Home</a>
           <a href="about.html" class="hover:text-gold-600">About</a>
           <a href="services.html" class="hover:text-gold-600">Services</a>
@@ -287,18 +371,39 @@
           <a href="contact.html" class="hover:text-gold-600">Contact</a>
         </div>
 
-        <div class="text-right text-xs">
+        <div class="text-center md:text-right text-xs">
           <a href="tel:+97142626916" class="font-mono text-gold-700 font-bold hover:underline block">+971 4 262 6916</a>
           <a href="mailto:lbhbullion@gmail.com" class="text-mutedText hover:underline">lbhbullion@gmail.com</a>
         </div>
       </div>
 
-      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px]">
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-center sm:text-left">
         <div>Office No. 403, Al Dhagaya, Al Ras, Deira, Dubai, UAE</div>
         <div>&copy; 2026 LBH Bullion Gold Trading L.L.C. All Rights Reserved.</div>
       </div>
     </div>
   </footer>
+
+  <!-- MOBILE FLOATING BOTTOM DOCK -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-softBorder py-2 px-3 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]">
+    <div class="grid grid-cols-3 gap-2 max-w-md mx-auto">
+      <a href="tel:+97142626916" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-lg bg-beige-100 text-charcoal hover:bg-beige-200 transition-colors">
+        <i data-lucide="phone" class="w-4 h-4 text-gold-600 mb-0.5"></i>
+        <span class="text-[10px] font-semibold tracking-tight">Call Desk</span>
+      </a>
+      <a href="rates.html" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-lg bg-gold-500/15 text-gold-700 font-bold">
+        <div class="flex items-center space-x-1">
+          <i data-lucide="trending-up" class="w-4 h-4 text-gold-600 mb-0.5"></i>
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        </div>
+        <span class="text-[10px] font-semibold tracking-tight">Live Rates</span>
+      </a>
+      <a href="contact.html" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-lg bg-gradient-to-r from-gold-600 to-gold-500 text-white shadow-sm hover:brightness-105 transition-all">
+        <i data-lucide="send" class="w-4 h-4 mb-0.5"></i>
+        <span class="text-[10px] font-semibold tracking-tight uppercase">Inquire</span>
+      </a>
+    </div>
+  </div>
 
   <script src="js/main.js"></script>
   <script>
