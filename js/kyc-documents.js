@@ -1,11 +1,7 @@
 /**
- * LBH Bullion - Official KYC Document Generator, Isolated Print & Word (.doc) Downloader
- * 
- * Formats user-provided data directly into authentic corporate legal documents matching
- * the official Microsoft Word templates on company letterhead.
- * 
- * Prints ONLY the filled document (completely isolating from website DOM/UI).
- * Downloads native Microsoft Word (.doc) files with user data pre-filled.
+ * LBH Bullion - Official KYC Document Generator & Print Engine
+ * Strictly aligned with uploaded Word templates.
+ * Unnecessary boilerplate removed. Clean, neat, and authentic.
  */
 
 function escapeHtml(str) {
@@ -26,521 +22,440 @@ function getVal(form, name, fallback = '______________________________') {
   return val ? escapeHtml(val) : fallback;
 }
 
-function getRadioVal(form, name, fallback = 'No') {
+function getRadioVal(form, name, fallback = 'NO') {
   if (!form) return fallback;
   const input = form.querySelector(`[name="${name}"]:checked`);
   return input ? input.value : fallback;
 }
 
-function getFormattedDate() {
+function getTodayFormatted() {
   const d = new Date();
   const day = String(d.getDate()).padStart(2, '0');
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  return `${day} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
 }
 
 /**
- * Builds the inner HTML of the official document matching the original Word .docx files.
+ * Builds the exact document HTML strictly following the uploaded Word templates.
  */
 function buildDocumentInnerHtml(type) {
-  const dateStr = getFormattedDate();
+  const dateStr = getTodayFormatted();
 
+  // 1. AUTHORIZATION LETTER (matches Authorisation_Letter.docx)
   if (type === 'auth') {
     const form = document.getElementById('online-form-auth');
-    const company = getVal(form, 'client_company', '[COMPANY / ENTITY LEGAL NAME]');
-    const license = getVal(form, 'commercial_license', '_______________');
-    const signatory = getVal(form, 'signatory_name', '______________________________');
-    const nationality = getVal(form, 'signatory_nationality', '_______________');
-    const signatoryId = getVal(form, 'signatory_id', '_______________');
-    const designation = getVal(form, 'signatory_designation', 'Authorized Signatory / Managing Director');
+    const company = getVal(form, 'client_company', '[Insert Client name]');
+    const signatory = getVal(form, 'signatory_name', '------------------------------');
+    const nationality = getVal(form, 'signatory_nationality', '-----------------');
+    const passport = getVal(form, 'signatory_passport', '---------------');
+    const eid = getVal(form, 'signatory_eid', '----------------------');
 
-    const off1Name = getVal(form, 'officer1_name', '______________________________');
-    const off1Id = getVal(form, 'officer1_id', '_______________');
-    const off1Phone = getVal(form, 'officer1_phone', '_______________');
+    const off1Name = getVal(form, 'officer1_name', '');
+    const off1Pass = getVal(form, 'officer1_passport', '');
+    const off1Contact = getVal(form, 'officer1_contact', '');
 
     const off2Name = getVal(form, 'officer2_name', '');
-    const off2Id = getVal(form, 'officer2_id', '');
-    const off2Phone = getVal(form, 'officer2_phone', '');
+    const off2Pass = getVal(form, 'officer2_passport', '');
+    const off2Contact = getVal(form, 'officer2_contact', '');
 
-    let officerRows = `
+    const off3Name = getVal(form, 'officer3_name', '');
+    const off3Pass = getVal(form, 'officer3_passport', '');
+    const off3Contact = getVal(form, 'officer3_contact', '');
+
+    let tableRows = `
       <tr>
-        <td style="border: 1px solid #000; padding: 7px; text-align: center;">1</td>
-        <td style="border: 1px solid #000; padding: 7px; font-weight: bold;">${off1Name}</td>
-        <td style="border: 1px solid #000; padding: 7px;">${off1Id}</td>
-        <td style="border: 1px solid #000; padding: 7px; text-align: center; color: #888;">____________________</td>
-        <td style="border: 1px solid #000; padding: 7px;">${off1Phone}</td>
+        <td style="border: 1px solid #000; padding: 6px; text-align: center;">1.</td>
+        <td style="border: 1px solid #000; padding: 6px;">${off1Name || '&nbsp;'}</td>
+        <td style="border: 1px solid #000; padding: 6px;">${off1Pass || '&nbsp;'}</td>
+        <td style="border: 1px solid #000; padding: 6px; text-align: center;">${off1Name ? '____________________' : '&nbsp;'}</td>
+        <td style="border: 1px solid #000; padding: 6px;">${off1Contact || '&nbsp;'}</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #000; padding: 6px; text-align: center;">2.</td>
+        <td style="border: 1px solid #000; padding: 6px;">${off2Name || '&nbsp;'}</td>
+        <td style="border: 1px solid #000; padding: 6px;">${off2Pass || '&nbsp;'}</td>
+        <td style="border: 1px solid #000; padding: 6px; text-align: center;">${off2Name ? '____________________' : '&nbsp;'}</td>
+        <td style="border: 1px solid #000; padding: 6px;">${off2Contact || '&nbsp;'}</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #000; padding: 6px; text-align: center;">3.</td>
+        <td style="border: 1px solid #000; padding: 6px;">${off3Name || '&nbsp;'}</td>
+        <td style="border: 1px solid #000; padding: 6px;">${off3Pass || '&nbsp;'}</td>
+        <td style="border: 1px solid #000; padding: 6px; text-align: center;">${off3Name ? '____________________' : '&nbsp;'}</td>
+        <td style="border: 1px solid #000; padding: 6px;">${off3Contact || '&nbsp;'}</td>
       </tr>
     `;
 
-    if (off2Name && off2Name !== '______________________________') {
-      officerRows += `
-        <tr>
-          <td style="border: 1px solid #000; padding: 7px; text-align: center;">2</td>
-          <td style="border: 1px solid #000; padding: 7px; font-weight: bold;">${off2Name}</td>
-          <td style="border: 1px solid #000; padding: 7px;">${off2Id}</td>
-          <td style="border: 1px solid #000; padding: 7px; text-align: center; color: #888;">____________________</td>
-          <td style="border: 1px solid #000; padding: 7px;">${off2Phone}</td>
-        </tr>
-      `;
-    }
-
     return `
-      <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 22px;">
-        <h2 style="font-size: 16pt; font-weight: bold; margin: 0; text-transform: uppercase; letter-spacing: 1px;">${company}</h2>
-        <p style="font-size: 10pt; color: #444; margin: 4px 0 0 0;">Commercial License / Registration No: <strong>${license}</strong></p>
-        <p style="font-size: 8.5pt; color: #777; margin: 2px 0 0 0; font-style: italic;">[ OFFICIAL CORPORATE LETTERHEAD ]</p>
+      <div style="text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 25px; border-bottom: 1px solid #333; padding-bottom: 8px;">
+        COMPANY LETTER HEAD
       </div>
 
-      <div style="display: flex; justify-content: space-between; margin-bottom: 18px; font-size: 10.5pt;">
-        <div><strong>Ref:</strong> LBH/AUTH/${new Date().getFullYear()}</div>
-        <div><strong>Date:</strong> <u>${dateStr}</u></div>
+      <div style="margin-bottom: 18px; font-size: 11pt;">
+        Date: <u>${dateStr}</u>
       </div>
 
-      <div style="margin-bottom: 18px; font-size: 10.5pt; line-height: 1.45;">
-        <strong>To:</strong><br>
-        <strong>LBH Bullion Gold Trading L.L.C</strong><br>
-        Office No. 403, Al Dhagaya Building, Al Ras, Deira<br>
-        P.O. Box 64288, Dubai, United Arab Emirates
+      <p style="margin-bottom: 12px; font-size: 11pt;">Dear Sir/Madam,</p>
+
+      <div style="font-weight: bold; font-size: 11.5pt; margin-bottom: 15px;">
+        Sub: Authorization letter
       </div>
 
-      <div style="text-align: center; margin: 18px 0; font-size: 12pt; font-weight: bold; text-decoration: underline;">
-        SUB: AUTHORIZATION LETTER
-      </div>
-
-      <p style="font-size: 10.5pt; line-height: 1.6; margin-bottom: 12px;">Dear Sir / Madam,</p>
-
-      <p style="font-size: 10.5pt; line-height: 1.7; text-align: justify; margin-bottom: 14px;">
-        I, the undersigned, Mr. <strong><u>${signatory}</u></strong>, of <strong><u>${nationality}</u></strong> nationality, holding Passport / Emirates ID Number: <strong><u>${signatoryId}</u></strong>, in my capacity as the Authorized Signatory of <strong><u>${company}</u></strong>, hereby authorize the following designated personnel individually to operate our trading account and execute transactions with <strong>LBH Bullion Gold Trading L.L.C</strong>.
+      <p style="text-align: justify; line-height: 1.6; font-size: 11pt; margin-bottom: 14px;">
+        I, undersigned. Mr <strong><u>${signatory}</u></strong>, <strong><u>${nationality}</u></strong> nationality, holding passport holder no. <strong><u>${passport}</u></strong> and Emirates Id No <strong><u>${eid}</u></strong>, is the authorized signatory of <strong><u>${company}</u></strong>. I hereby authorize the following personnel individually to operate our account with <strong>LBH Bullion Gold Trading L.L.C</strong>.
       </p>
 
-      <p style="font-size: 10.5pt; line-height: 1.6; margin-bottom: 8px;">They have full authority to:</p>
-      <ul style="font-size: 10pt; line-height: 1.6; margin-top: 0; margin-bottom: 14px; padding-left: 26px;">
-        <li>Fix gold and silver market prices and confirm physical trading orders.</li>
-        <li>Deliver physical bullion and precious metals to your premises.</li>
-        <li>Take delivery of physical bullion, gold bars, and coins on our behalf.</li>
-        <li>Sign all delivery notes, vouchers, statements of accounts, and trade execution documents.</li>
-        <li>Sign / issue receipts, invoices, and vouchers in connection with precious metals delivery and settlements.</li>
-        <li>Collect cheques, electronic wire settlements, or cash in connection with the delivery and settlement of gold.</li>
+      <p style="font-size: 11pt; margin-bottom: 8px;">They have fully authority to:</p>
+      <ul style="font-size: 10.5pt; line-height: 1.6; margin-top: 0; margin-bottom: 16px; padding-left: 24px;">
+        <li>Fix gold</li>
+        <li>Deliver gold</li>
+        <li>Take delivery of gold</li>
+        <li>Sign all statements in connection with the delivery of gold and statement of accounts</li>
+        <li>Signing / issuing receipt, vouchers, in connection with the delivery of gold and payment in such transactions.</li>
+        <li>Collecting cheques and cash in connection with the delivery of gold.</li>
       </ul>
 
-      <p style="font-size: 10pt; font-weight: bold; margin-bottom: 6px;">Authorized Specimen Signatures Table:</p>
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 9.5pt;">
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 10pt;">
         <thead>
           <tr style="background-color: #f2f2f2;">
-            <th style="border: 1px solid #000; padding: 6px; width: 35px; text-align: center;">S.N.</th>
-            <th style="border: 1px solid #000; padding: 6px; text-align: left;">Full Legal Name</th>
-            <th style="border: 1px solid #000; padding: 6px; text-align: left;">Passport / EID No.</th>
+            <th style="border: 1px solid #000; padding: 6px; width: 35px; text-align: center;">S.N</th>
+            <th style="border: 1px solid #000; padding: 6px; text-align: left;">Name</th>
+            <th style="border: 1px solid #000; padding: 6px; text-align: left;">Passport No.</th>
             <th style="border: 1px solid #000; padding: 6px; width: 140px; text-align: center;">Specimen Signature</th>
-            <th style="border: 1px solid #000; padding: 6px; text-align: left;">Contact Mobile</th>
+            <th style="border: 1px solid #000; padding: 6px; text-align: left;">Contact No.</th>
           </tr>
         </thead>
         <tbody>
-          ${officerRows}
+          ${tableRows}
         </tbody>
       </table>
 
-      <p style="font-size: 10pt; line-height: 1.5; margin-bottom: 25px; text-align: justify;">
-        This authorization letter shall remain legally valid and binding on our company until formal written notice of revocation is received and acknowledged in writing by LBH Bullion Gold Trading L.L.C.
-      </p>
-
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px; page-break-inside: avoid;">
-        <div style="width: 60%;">
-          <p style="font-size: 10pt; margin: 0 0 4px 0;">Yours truly,</p>
-          <p style="font-size: 10.5pt; font-weight: bold; margin: 0 0 40px 0;">For and on behalf of: ${company}</p>
-          <div style="border-top: 1px solid #000; width: 230px; padding-top: 5px;">
-            <p style="font-size: 10pt; font-weight: bold; margin: 0;">Authorized Signatory: ${signatory}</p>
-            <p style="font-size: 9.5pt; color: #444; margin: 2px 0 0 0;">Designation: ${designation}</p>
-            <p style="font-size: 9.5pt; color: #444; margin: 2px 0 0 0;">Date: ${dateStr}</p>
-          </div>
-        </div>
-        <div style="width: 35%; text-align: center;">
-          <div style="border: 2px dashed #888; width: 140px; height: 95px; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 9pt; color: #666; border-radius: 4px;">
-            [ Official Company Stamp ]
-          </div>
-        </div>
+      <div style="margin-top: 35px; font-size: 11pt; line-height: 1.5;">
+        <p style="margin: 0 0 45px 0;">Yours truly,</p>
+        <p style="margin: 0; font-weight: bold;">Authorised signatory</p>
+        <p style="margin: 4px 0 0 0;">${company}</p>
       </div>
     `;
   }
 
+  // 2. DECLARATION SOURCE OF FUNDS (matches DECLARATION_SOURCE_OF_FUNDS-_CORPORATE.docx)
   if (type === 'funds') {
     const form = document.getElementById('online-form-funds');
-    const entity = getVal(form, 'entity_name', '[CLIENT / ENTITY LEGAL NAME]');
-    const signatory = getVal(form, 'signatory_name', '______________________________');
-    const designation = getVal(form, 'designation', 'Authorized Signatory / Finance Director');
-    const email = getVal(form, 'email', 'compliance@company.com');
-    const purpose = getVal(form, 'purpose', 'Purchase and settlement of investment-grade gold bars and bullion products');
-    const origin = getVal(form, 'funds_origin', 'Commercial Business Trading Income');
+    const company = getVal(form, 'company_name', '(COMPANY NAME)');
+    const signatory = getVal(form, 'signatory_name', 'Authorized signature’s name');
+    const purpose = getVal(form, 'purpose', '(STATE THE PURPOSE)');
 
     return `
-      <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 22px;">
-        <h2 style="font-size: 16pt; font-weight: bold; margin: 0; text-transform: uppercase; letter-spacing: 1px;">${entity}</h2>
-        <p style="font-size: 8.5pt; color: #777; margin: 4px 0 0 0; font-style: italic;">[ OFFICIAL CORPORATE LETTERHEAD ]</p>
+      <div style="margin-bottom: 18px; font-size: 11pt;">
+        Date: <u>${dateStr}</u>
       </div>
 
-      <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 10.5pt;">
-        <div><strong>Ref:</strong> LBH/SOF/${new Date().getFullYear()}</div>
-        <div><strong>Date:</strong> <u>${dateStr}</u></div>
-      </div>
-
-      <div style="margin-bottom: 20px; font-size: 10.5pt; line-height: 1.45;">
-        <strong>TO:</strong><br>
-        <strong>LBH Bullion Gold Trading L.L.C</strong><br>
-        Office No. 403, Al Dhagaya Building, Al Ras, Deira<br>
-        P.O. Box 64288, Dubai, United Arab Emirates
-      </div>
-
-      <div style="text-align: center; margin: 20px 0; font-size: 12pt; font-weight: bold; text-decoration: underline;">
-        SUBJECT: DECLARATION - SOURCE OF FUNDS
-      </div>
-
-      <p style="font-size: 10.5pt; line-height: 1.6; margin-bottom: 12px;">Dear Sir / Madam,</p>
-
-      <p style="font-size: 10.5pt; line-height: 1.7; text-align: justify; margin-bottom: 14px;">
-        We are writing this official declaration to formally confirm and certify the legitimate origin and nature of funds utilized for precious metals transactions conducted with <strong>LBH Bullion Gold Trading L.L.C</strong>.
-      </p>
-
-      <p style="font-size: 10.5pt; line-height: 1.7; text-align: justify; margin-bottom: 14px;">
-        <strong>1. Purpose of Transactions:</strong><br>
-        The funds utilized by our company are exclusively dedicated for the purpose of: <strong><u>${purpose}</u></strong>.
-      </p>
-
-      <p style="font-size: 10.5pt; line-height: 1.7; text-align: justify; margin-bottom: 14px;">
-        <strong>2. Nature and Origin of Funds:</strong><br>
-        The funds utilized have been legitimately acquired through: <strong><u>${origin}</u></strong>. We unequivocally declare and warrant that all funds are genuine, legitimate, and do not originate from, nor are linked to, any unlawful conduct, money laundering, terrorist financing, corruption, or proceeds of crime.
-      </p>
-
-      <p style="font-size: 10.5pt; line-height: 1.7; text-align: justify; margin-bottom: 14px;">
-        <strong>3. Regulatory Compliance:</strong><br>
-        We understand that LBH Bullion Gold Trading L.L.C has a strict regulatory obligation to comply with the AML/CFT laws and regulations of the United Arab Emirates, specifically Federal Decree-Law No. (20) of 2018, Cabinet Decision No. (10) of 2019, and the Ministry of Economy Guidelines for the Precious Metals and Stones sector.
-      </p>
-
-      <p style="font-size: 10.5pt; line-height: 1.7; text-align: justify; margin-bottom: 25px;">
-        <strong>4. Supporting Proofs Undertaking:</strong><br>
-        We formally confirm that we will provide official audited financial statements, commercial contracts, source bank statements, or any further documentary proofs to verify this declaration immediately upon request.
-      </p>
-
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 35px; page-break-inside: avoid;">
-        <div style="width: 60%;">
-          <p style="font-size: 10pt; margin: 0 0 4px 0;">Sincerely,</p>
-          <p style="font-size: 10.5pt; font-weight: bold; margin: 0 0 40px 0;">For and on behalf of: ${entity}</p>
-          <div style="border-top: 1px solid #000; width: 230px; padding-top: 5px;">
-            <p style="font-size: 10pt; font-weight: bold; margin: 0;">Authorized Signature: ____________________</p>
-            <p style="font-size: 9.5pt; margin: 3px 0 0 0;">Name: <strong>${signatory}</strong></p>
-            <p style="font-size: 9.5pt; color: #444; margin: 2px 0 0 0;">Designation: ${designation}</p>
-            <p style="font-size: 9.5pt; color: #444; margin: 2px 0 0 0;">Email: ${email}</p>
-            <p style="font-size: 9.5pt; color: #444; margin: 2px 0 0 0;">Date: ${dateStr}</p>
-          </div>
-        </div>
-        <div style="width: 35%; text-align: center;">
-          <div style="border: 2px dashed #888; width: 140px; height: 95px; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 9pt; color: #666; border-radius: 4px;">
-            [ Corporate Stamp ]
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  if (type === 'pep') {
-    const form = document.getElementById('online-form-pep');
-    const declarant = getVal(form, 'pep_declarant_name', '______________________________');
-    const company = getVal(form, 'pep_company_name', '[CLIENT / ENTITY LEGAL NAME]');
-    const designation = getVal(form, 'pep_designation', 'Managing Director / Beneficial Owner');
-    const isPep = getRadioVal(form, 'is_pep', 'No');
-    const relatedPep = getRadioVal(form, 'related_to_pep', 'No');
-    const details = getVal(form, 'pep_details', 'None / N/A');
-
-    return `
-      <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 18px;">
-        <h2 style="font-size: 14pt; font-weight: bold; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">POLITICALLY EXPOSED PERSON (PEP) DECLARATION FORM</h2>
-        <p style="font-size: 9pt; color: #555; margin: 4px 0 0 0;">Compliance with UAE AML/CFT Regulations & FATF Recommendations</p>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 10pt;">
-        <div><strong>Entity Name:</strong> <strong>${company}</strong></div>
-        <div><strong>Date:</strong> <u>${dateStr}</u></div>
-      </div>
-
-      <p style="font-size: 9.5pt; line-height: 1.55; text-align: justify; margin-bottom: 12px; color: #222;">
-        The information in this form is collected to comply with Anti-Money Laundering (AML), Counter-Terrorism Financing (CFT), and Proceeds of Unlawful Activities requirements under the regulatory framework of the United Arab Emirates.
-      </p>
-
-      <div style="background-color: #f7f7f7; border: 1px solid #ccc; padding: 10px; margin-bottom: 16px; font-size: 9pt; line-height: 1.5;">
-        <strong>Definition:</strong> A Politically Exposed Person (PEP) is an individual who is or who has been entrusted with prominent public functions domestically or by a foreign government, including:
-        <ol style="margin: 4px 0 0 0; padding-left: 20px;">
-          <li>Head of State or Head of Government</li>
-          <li>Senior politician, minister, or parliamentarian</li>
-          <li>Senior government, judicial, central banking, or military official</li>
-          <li>Member of a ruling royal family</li>
-          <li>Senior executive of a state-owned enterprise or government-linked entity</li>
-          <li>Important political party official</li>
-        </ol>
-        <em>Note: The definition includes immediate family members, relatives, personal advisers, or close business associates.</em>
-      </div>
-
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 9.5pt;">
-        <thead>
-          <tr style="background-color: #f2f2f2;">
-            <th style="border: 1px solid #000; padding: 6px 10px; text-align: left;">Verification Question</th>
-            <th style="border: 1px solid #000; padding: 6px 10px; width: 140px; text-align: center;">Declaration</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="border: 1px solid #000; padding: 8px 10px;">
-              <strong>1. Are you or any beneficial owner/director of the company a Politically Exposed Person (PEP)?</strong>
-            </td>
-            <td style="border: 1px solid #000; padding: 8px 10px; text-align: center; font-weight: bold;">
-              ${isPep === 'Yes' ? '[ X ] YES &nbsp;&nbsp; [ &nbsp; ] NO' : '[ &nbsp; ] YES &nbsp;&nbsp; [ X ] NO'}
-            </td>
-          </tr>
-          <tr>
-            <td style="border: 1px solid #000; padding: 8px 10px;">
-              <strong>2. Are you or the entity related to, or in close personal/business partnership with a PEP?</strong>
-            </td>
-            <td style="border: 1px solid #000; padding: 8px 10px; text-align: center; font-weight: bold;">
-              ${relatedPep === 'Yes' ? '[ X ] YES &nbsp;&nbsp; [ &nbsp; ] NO' : '[ &nbsp; ] YES &nbsp;&nbsp; [ X ] NO'}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div style="border: 1px solid #000; padding: 8px 10px; margin-bottom: 16px; font-size: 9.5pt;">
-        <strong>3. If YES to either question, specify profile, relationship, government entity, and jurisdiction:</strong>
-        <p style="margin: 5px 0 0 0; color: #222; font-style: italic;">${details}</p>
-      </div>
-
-      <div style="margin-bottom: 20px; font-size: 9.5pt; line-height: 1.5; text-align: justify;">
-        <strong>DECLARATION:</strong><br>
-        I hereby formally certify and declare that the details and answers provided above are complete, true, and accurate to the best of my knowledge. I undertake to notify <strong>LBH Bullion Gold Trading L.L.C</strong> in writing within fourteen (14) calendar days of any material change in PEP status.
-      </div>
-
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 25px; page-break-inside: avoid;">
-        <div style="width: 60%;">
-          <div style="border-top: 1px solid #000; width: 240px; padding-top: 5px;">
-            <p style="font-size: 9.5pt; font-weight: bold; margin: 0;">Declarant Name: ${declarant}</p>
-            <p style="font-size: 9pt; color: #444; margin: 2px 0 0 0;">Company Name: ${company}</p>
-            <p style="font-size: 9pt; color: #444; margin: 2px 0 0 0;">Designation: ${designation}</p>
-            <p style="font-size: 9pt; color: #444; margin: 2px 0 0 0;">Signature: ______________________________</p>
-            <p style="font-size: 9pt; color: #444; margin: 2px 0 0 0;">Date: ${dateStr}</p>
-          </div>
-        </div>
-        <div style="width: 35%; text-align: center;">
-          <div style="border: 2px dashed #888; width: 130px; height: 90px; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 8.5pt; color: #666; border-radius: 4px;">
-            [ Company Stamp ]
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  if (type === 'sanctions') {
-    const form = document.getElementById('online-form-sanctions');
-    const declarant = getVal(form, 'sanctions_declarant_name', '______________________________');
-    const company = getVal(form, 'sanctions_company_name', '[CLIENT / ENTITY LEGAL NAME]');
-    const nationality = getVal(form, 'sanctions_nationality', '_______________');
-    const idNo = getVal(form, 'sanctions_id_no', '_______________');
-    const designation = getVal(form, 'sanctions_designation', 'Owner & Ultimate Beneficial Owner (UBO)');
-
-    return `
-      <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 20px;">
-        <h2 style="font-size: 15pt; font-weight: bold; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">${company}</h2>
-        <p style="font-size: 8.5pt; color: #777; margin: 4px 0 0 0; font-style: italic;">[ OFFICIAL CORPORATE LETTERHEAD ]</p>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; margin-bottom: 18px; font-size: 10.5pt;">
-        <div><strong>Ref:</strong> LBH/SANCT/${new Date().getFullYear()}</div>
-        <div><strong>Date:</strong> <u>${dateStr}</u></div>
-      </div>
-
-      <div style="margin-bottom: 18px; font-size: 10.5pt; line-height: 1.45;">
-        <strong>TO WHOMSOEVER IT MAY CONCERN /</strong><br>
+      <div style="margin-bottom: 18px; font-size: 11pt; line-height: 1.4;">
+        TO:<br>
         <strong>LBH Bullion Gold Trading L.L.C</strong><br>
         Office No. 403, Al Dhagaya Building, Al Ras, Deira, Dubai, UAE
       </div>
 
-      <div style="text-align: center; margin: 18px 0; font-size: 12pt; font-weight: bold; text-decoration: underline;">
-        UNDERTAKING LETTER - SANCTIONS & TRADE EMBARGOES
+      <div style="font-weight: bold; font-size: 11.5pt; margin-bottom: 15px;">
+        Subject: DECLARATION SOURCE OF FUNDS
       </div>
 
-      <p style="font-size: 10.5pt; line-height: 1.6; margin-bottom: 12px;">Dear Sir,</p>
+      <p style="margin-bottom: 12px; font-size: 11pt;">Dear Sir/Madam,</p>
 
-      <p style="font-size: 10.5pt; line-height: 1.7; text-align: justify; margin-bottom: 14px;">
-        I, <strong><u>${declarant}</u></strong>, of <strong><u>${nationality}</u></strong> nationality, having Passport / Emirates ID Number: <strong><u>${idNo}</u></strong>, in my capacity as Owner & Ultimate Beneficial Owner (UBO) / Authorized Representative of <strong><u>${company}</u></strong>, hereby confirm and warrant that neither of our entities nor any of our related parties are dealing with sanctioned countries or designated persons.
+      <p style="text-align: justify; line-height: 1.6; font-size: 11pt; margin-bottom: 14px;">
+        We are writing this letter to confirm the source of funds that will be used for <strong><u>${purpose}</u></strong>
       </p>
 
-      <p style="font-size: 10.5pt; line-height: 1.7; text-align: justify; margin-bottom: 12px;">
-        We specifically undertake and declare that:
+      <p style="text-align: justify; line-height: 1.6; font-size: 11pt; margin-bottom: 14px;">
+        The funds that I will be using for <strong><u>${purpose}</u></strong>, have been acquired through business income. We declare that the funds are legitimate and do not have any illegal origin.
       </p>
-      <ul style="font-size: 10pt; line-height: 1.6; margin-top: 0; margin-bottom: 16px; padding-left: 24px;">
-        <li>Neither our company, directors, nor shareholders are listed on the UAE National Sanctions List, UN Security Council Sanctions, US OFAC Specially Designated Nationals (SDN), EU Consolidated Financial Sanctions, or UK OFSI lists.</li>
-        <li>Our company is not owned or controlled by, nor operating as an agent of, the Governments of Iran, North Korea, Syria, Cuba, Myanmar, or the occupied regions of Ukraine (Crimea, Sevastopol, Donetsk, Luhansk).</li>
-        <li>No funds, bullion, or settlement assets involved in transactions with LBH Bullion Gold Trading L.L.C originate from unlawful conduct, money laundering, extortion, or terrorist financing.</li>
-        <li>Our company complies strictly with UAE Federal Decree-Law No. (20) of 2018 on Anti-Money Laundering and Combating the Financing of Terrorism.</li>
-        <li>We shall immediately inform LBH Bullion Gold Trading L.L.C in writing if any material change occurs in our sanctions or regulatory standing.</li>
-      </ul>
 
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 35px; page-break-inside: avoid;">
-        <div style="width: 60%;">
-          <p style="font-size: 10pt; margin: 0 0 4px 0;">Yours faithfully,</p>
-          <p style="font-size: 10.5pt; font-weight: bold; margin: 0 0 40px 0;">For and on behalf of: ${company}</p>
-          <div style="border-top: 1px solid #000; width: 230px; padding-top: 5px;">
-            <p style="font-size: 10pt; font-weight: bold; margin: 0;">Authorized Signature: ____________________</p>
-            <p style="font-size: 9.5pt; margin: 3px 0 0 0;">Name: <strong>${declarant}</strong></p>
-            <p style="font-size: 9.5pt; color: #444; margin: 2px 0 0 0;">Title: ${designation}</p>
-            <p style="font-size: 9.5pt; color: #444; margin: 2px 0 0 0;">Passport / ID: ${idNo}</p>
-            <p style="font-size: 9.5pt; color: #444; margin: 2px 0 0 0;">Date: ${dateStr}</p>
-          </div>
-        </div>
-        <div style="width: 35%; text-align: center;">
-          <div style="border: 2px dashed #888; width: 140px; height: 95px; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 9pt; color: #666; border-radius: 4px;">
-            [ Corporate Stamp ]
-          </div>
-        </div>
+      <p style="text-align: justify; line-height: 1.6; font-size: 11pt; margin-bottom: 14px;">
+        We understand that your entity has an obligation to comply with the laws and regulations on money laundering and terrorist financing. I assure you that the funds used to purchase your products are from legitimate sources.
+      </p>
+
+      <p style="text-align: justify; line-height: 1.6; font-size: 11pt; margin-bottom: 14px;">
+        If necessary, I am willing to provide any additional documentation or information to support the legitimacy of the funds.
+      </p>
+
+      <p style="text-align: justify; line-height: 1.6; font-size: 11pt; margin-bottom: 14px;">
+        Please inform us if you need any further clarification or information.
+      </p>
+
+      <p style="font-size: 11pt; margin-bottom: 25px;">Thank you for your understanding and cooperation.</p>
+
+      <div style="font-size: 11pt; line-height: 1.5; margin-top: 30px;">
+        <p style="margin: 0 0 45px 0;">For & on Behalf of <strong>${company}</strong></p>
+        <p style="margin: 0;">___________________________</p>
+        <p style="margin: 4px 0 0 0; font-weight: bold;">${signatory}</p>
+        <p style="margin: 2px 0 0 0;">${company}</p>
+        <p style="margin: 8px 0 0 0; color: #666; font-style: italic;">[Company stamp]</p>
       </div>
     `;
   }
 
+  // 3. UNDERTAKING LETTER (matches UNDERTAKING_LETTER.docx)
+  if (type === 'sanctions') {
+    const form = document.getElementById('online-form-sanctions');
+    const name = getVal(form, 'declarant_name', '----------------------------');
+    const nationality = getVal(form, 'nationality', '-----------');
+    const passport = getVal(form, 'passport_no', '------------------------------');
+    const company = getVal(form, 'company_name', '(COMPANY NAME)');
+    const signatory = getVal(form, 'signatory_name', name);
+
+    return `
+      <div style="margin-bottom: 18px; font-size: 11pt;">
+        Date: <u>${dateStr}</u>
+      </div>
+
+      <div style="font-weight: bold; font-size: 12pt; text-align: center; margin-bottom: 18px;">
+        Undertaking Letter
+      </div>
+
+      <div style="font-weight: bold; font-size: 11pt; margin-bottom: 15px;">
+        To Whomsoever It May Concern
+      </div>
+
+      <p style="margin-bottom: 12px; font-size: 11pt;">Dear Sir,</p>
+
+      <p style="text-align: justify; line-height: 1.65; font-size: 11pt; margin-bottom: 14px; text-indent: 20px;">
+        I, <strong><u>${name}</u></strong>, <strong><u>${nationality}</u></strong> National having Passport number <strong><u>${passport}</u></strong> owner & UBO of <strong><u>${company}</u></strong> hereby confirm that neither of our entities nor any of our related parties are dealing with sanctioned countries listed by UAE, United Nations, United States, European Union, or the UK, nor Owned or controlled by, or operating as agents of the Governments of Iran, North Korea, Myanmar or Resident or domiciled in Iran, North Korea or Myanmar.
+      </p>
+
+      <p style="text-align: justify; line-height: 1.65; font-size: 11pt; margin-bottom: 14px; text-indent: 20px;">
+        I hereby further confirm that all our business operations have never dealt with / won’t involve a sanctioned country (at present Iran, North Korea or Myanmar) or violate or to cause any economic or financial sanctions or trade embargoes implemented, administered or enforced by the United Arab Emirates, The United Nations, United States, European Union, United Kingdom or other relevant sanctions authorities.
+      </p>
+
+      <p style="text-align: justify; line-height: 1.65; font-size: 11pt; margin-bottom: 14px; text-indent: 20px;">
+        I also confirm that neither I nor any of key person acting as nominee of any person national / residing any of the above sanctioned countries.
+      </p>
+
+      <p style="text-align: justify; line-height: 1.65; font-size: 11pt; margin-bottom: 25px; text-indent: 20px;">
+        Finally, I confirm that the funds used to sale/purchase precious metals do not consist money which is derived from the proceeds of Criminal activities/or from means of any illegal sources.
+      </p>
+
+      <div style="font-size: 11pt; line-height: 1.5; margin-top: 30px;">
+        <p style="margin: 0 0 5px 0;">Sincerely,</p>
+        <p style="margin: 0 0 45px 0;">For & on Behalf of <strong>${company}</strong></p>
+        <p style="margin: 0;">_________________________</p>
+        <p style="margin: 4px 0 0 0; font-weight: bold;">${signatory}</p>
+        <p style="margin: 2px 0 0 0;">${company}</p>
+        <p style="margin: 8px 0 0 0; color: #666; font-style: italic;">[Company stamp]</p>
+      </div>
+    `;
+  }
+
+  // 4. PEP DECLARATION (matches PEP_DECLARATION.docx)
+  if (type === 'pep') {
+    const form = document.getElementById('online-form-pep');
+    const name = getVal(form, 'pep_name', 'Name');
+    const designation = getVal(form, 'pep_designation', 'Designation');
+    const isPep = getRadioVal(form, 'is_pep', 'NO');
+    const relatedPep = getRadioVal(form, 'related_to_pep', 'NO');
+    const details = getVal(form, 'pep_details', '');
+
+    return `
+      <div style="text-align: center; font-weight: bold; font-size: 12.5pt; margin-bottom: 15px;">
+        POLITICALLY EXPOSED PERSON (PEP) DECLARATION FORM
+      </div>
+
+      <p style="text-align: justify; font-size: 10pt; line-height: 1.5; margin-bottom: 10px;">
+        The information in this form is collected to comply with the Anti-Money Laundering, Anti-Terrorism Financing and Proceeds of Unlawful Activities requirement.
+      </p>
+
+      <p style="text-align: justify; font-size: 10pt; line-height: 1.5; margin-bottom: 8px;">
+        A politically exposed person (PEP) is an individual who is or who has been entrusted with prominent public functions domestically' or by a foreign country.
+      </p>
+
+      <p style="font-size: 10pt; margin-bottom: 6px;">Prominent public functions include the following profiles:</p>
+      <ol style="font-size: 9.5pt; line-height: 1.45; margin-top: 0; margin-bottom: 10px; padding-left: 20px;">
+        <li>Head of State or of Government</li>
+        <li>Senior politician</li>
+        <li>Senior government, judicial or military official</li>
+        <li>Member of ruling royal family</li>
+        <li>Senior executive of state-owned corporation I government linked company.</li>
+        <li>Important political party official</li>
+      </ol>
+
+      <p style="font-size: 10pt; line-height: 1.45; margin-bottom: 14px;">
+        The definition of PEP also includes immediate family members, relatives, adviser, personal adviser, or business associate of an individual stated above:
+      </p>
+
+      <div style="margin-bottom: 12px; font-size: 10.5pt;">
+        <strong>1. Are you a PEP?</strong> &nbsp;&nbsp;&nbsp;&nbsp;
+        <strong>${isPep === 'YES' ? '[X] YES' : '[ &nbsp; ] YES'}</strong> &nbsp;&nbsp;&nbsp;&nbsp;
+        <strong>${isPep === 'NO' ? '[X] NO' : '[ &nbsp; ] NO'}</strong>
+      </div>
+
+      <div style="margin-bottom: 12px; font-size: 10.5pt;">
+        <strong>2. Is you or the entity related to a PEP?</strong> &nbsp;&nbsp;&nbsp;&nbsp;
+        <strong>${relatedPep === 'YES' ? '[X] YES' : '[ &nbsp; ] YES'}</strong> &nbsp;&nbsp;&nbsp;&nbsp;
+        <strong>${relatedPep === 'NO' ? '[X] NO' : '[ &nbsp; ] NO'}</strong>
+      </div>
+
+      <p style="font-size: 9pt; color: #444; margin-bottom: 6px; font-style: italic;">
+        (Please fill the below questions if the first two questions you answered - yes)
+      </p>
+
+      <p style="font-size: 10pt; margin-bottom: 6px;">3. If you are or related to a PEP, please indicate the profile and relationship to you:</p>
+      <div style="font-size: 9.5pt; line-height: 1.4; margin-bottom: 12px; padding-left: 15px;">
+        A. Head of State or of Government<br>
+        B. Senior politician<br>
+        C. Senior government, judicial or military official<br>
+        D. Member of ruling royal family<br>
+        E. Senior executive of state-owned corporation I Government linked company<br>
+        F. Important political party official<br>
+        G. Other ${details ? `: <strong><u>${details}</u></strong>` : ''}
+      </div>
+
+      <p style="font-size: 10pt; line-height: 1.5; margin-bottom: 20px; text-align: justify;">
+        I hereby declare that the details and information given above are complete and true to the best of my knowledge.
+      </p>
+
+      <div style="font-size: 10.5pt; line-height: 1.6; margin-top: 25px;">
+        <div>Name: <strong>${name}</strong></div>
+        <div>Designation: <strong>${designation}</strong></div>
+        <div>Signature: __________________________</div>
+        <div>Date: <u>${dateStr}</u></div>
+      </div>
+    `;
+  }
+
+  // 5. SUPPLY CHAIN POLICY & UNDERTAKING (matches SUPPLY_CHAIN_POLICY_-_DECLARATION_AND_UNDERTAKING.docx)
   if (type === 'supply') {
     const form = document.getElementById('online-form-supply');
-    const company = getVal(form, 'supply_company_name', '[SUPPLIER / CLIENT COMPANY NAME]');
-    const signatory = getVal(form, 'supply_signatory_name', '______________________________');
-    const designation = getVal(form, 'supply_designation', 'Managing Director / Compliance Officer');
-    const license = getVal(form, 'supply_license_no', '_______________');
+    const company = getVal(form, 'company_name', '[COMPANY NAME]');
+    const signatory = getVal(form, 'signatory_name', 'Name & Title');
 
     return `
-      <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 20px;">
-        <h2 style="font-size: 15pt; font-weight: bold; margin: 0; text-transform: uppercase;">${company}</h2>
-        <p style="font-size: 9pt; color: #555; margin: 4px 0 0 0;">Commercial Registration: ${license}</p>
-        <p style="font-size: 8.5pt; color: #777; margin: 2px 0 0 0; font-style: italic;">[ OFFICIAL CORPORATE LETTERHEAD ]</p>
+      <div style="text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 18px;">
+        SUPPLY CHAIN POLICY & UNDERTAKING
       </div>
 
-      <div style="display: flex; justify-content: space-between; margin-bottom: 18px; font-size: 10pt;">
-        <div><strong>Ref:</strong> LBH/SUPPLY/${new Date().getFullYear()}</div>
-        <div><strong>Date:</strong> <u>${dateStr}</u></div>
-      </div>
-
-      <div style="text-align: center; margin: 18px 0; font-size: 12pt; font-weight: bold; text-decoration: underline;">
-        SUPPLY CHAIN POLICY - DECLARATION AND UNDERTAKING
-      </div>
-
-      <p style="font-size: 10pt; line-height: 1.6; text-align: justify; margin-bottom: 12px;">
-        <strong>${company}</strong> is committed to conducting all business activities with integrity, transparency, and adherence to the highest ethical and professional standards. We recognize our shared responsibility with <strong>LBH Bullion Gold Trading L.L.C</strong> to maintain a conflict-free, responsible, and transparent supply chain in precious metals trading.
+      <p style="text-align: justify; font-size: 10pt; line-height: 1.55; margin-bottom: 12px;">
+        <strong>${company}</strong> is committed to conducting all business activities with integrity, transparency, and adherence to the highest ethical and professional standards. We recognize our shared responsibility with all counterparties to maintain a conflictfree, responsible, and transparent supply chain. Our company fully aligns with and commits to the OECD Due Diligence Guidance for Responsible Supply Chains of Minerals from ConflictAffected and HighRisk Areas, the LBMA Responsible Gold Guidance, the Responsible Minerals Initiative (RMI), the World Gold Council ConflictFree Gold Standard, and all applicable UAE Ministry of Economy (MOEC) legislations and regulatory requirements for supply chain responsible sourcing of precious metals and stones.
       </p>
 
-      <p style="font-size: 10pt; line-height: 1.6; text-align: justify; margin-bottom: 12px;">
-        Our company fully aligns with and commits to the <strong>OECD Due Diligence Guidance for Responsible Supply Chains of Minerals from Conflict-Affected and High-Risk Areas</strong>, DMCC Responsible Sourcing Review Protocol, and UAE Ministry of Economy regulations.
+      <div style="font-weight: bold; font-size: 10.5pt; margin-bottom: 6px;">OUR COMMITMENTS</div>
+
+      <div style="font-weight: bold; font-size: 10pt; margin-bottom: 4px;">Zero Tolerance for Human Rights Violations</div>
+      <p style="font-size: 9.5pt; line-height: 1.45; margin: 0 0 10px 0; text-align: justify;">
+        ${company} shall neither participate in nor benefit from any form of human rights abuse, including inhumane treatment, forced labor, child labor, human trafficking, or any criminal activity. Immediately suspend or discontinue engagement with any supplier where a reasonable risk is identified that their operations are linked to such abuses.
       </p>
 
-      <p style="font-size: 10pt; font-weight: bold; margin-bottom: 6px;">UNDERTAKING COMMITMENTS:</p>
-      <ul style="font-size: 9.5pt; line-height: 1.6; margin-top: 0; margin-bottom: 16px; padding-left: 22px;">
-        <li>We have implemented an adequate supply chain due diligence system in accordance with the OECD 5-Step Due Diligence Framework.</li>
+      <div style="font-weight: bold; font-size: 10pt; margin-bottom: 4px;">No Support to NonState Armed Groups</div>
+      <p style="font-size: 9.5pt; line-height: 1.45; margin: 0 0 10px 0; text-align: justify;">
+        We strictly prohibit any direct or indirect support to nonstate armed groups through mineral procurement, logistics, payments, or illegal control of mine sites and transport routes. Where such risks are identified, ${company} will immediately cease transactions with the upstream supplier.
+      </p>
+
+      <div style="font-weight: bold; font-size: 10pt; margin-bottom: 4px;">Promotion of Responsible Sourcing Practices</div>
+      <p style="font-size: 9.5pt; line-height: 1.45; margin: 0 0 10px 0; text-align: justify;">
+        We commit to building long-term, transparent relationships and disseminating responsible sourcing guidance issued by OECD, LBMA, RMI, DMCC, World Gold Council, and UAE MOEC.
+      </p>
+
+      <div style="font-weight: bold; font-size: 10pt; margin-bottom: 4px;">AntiBribery, AntiCorruption, AntiMoney Laundering & CFT</div>
+      <p style="font-size: 9.5pt; line-height: 1.45; margin: 0 0 12px 0; text-align: justify;">
+        ${company} shall not offer, promise, give, or accept bribes, and shall implement a robust AML/CFT compliance framework ensuring no precious metals are sourced from sanctioned entities or embargoed regions without enhanced due diligence.
+      </p>
+
+      <div style="font-weight: bold; font-size: 10.5pt; margin-bottom: 8px;">UNDERTAKING</div>
+      <p style="font-size: 9.5pt; line-height: 1.45; margin-bottom: 6px;">By signing this document, we hereby confirm that:</p>
+      <ul style="font-size: 9.5pt; line-height: 1.45; margin: 0 0 16px 0; padding-left: 20px;">
+        <li>We have implemented an adequate supply chain due diligence system in accordance with the OECD Due Diligence Guidance.</li>
         <li>We comply with all applicable national and international laws and regulations governing the trade of precious metals.</li>
-        <li>We do not source, transport, or trade precious metals originating from conflict-affected, high-risk, or sanctioned areas without enhanced due diligence.</li>
-        <li>We do not tolerate human rights abuses, forced labor, direct or indirect support to non-state armed groups, bribery, or illegal mineral extortion.</li>
-        <li>We maintain complete, auditable transaction and KYC records for a minimum statutory period of five (5) years.</li>
+        <li>We review, understand, and integrate all relevant laws and regulations into our internal processes and riskmitigation strategies.</li>
+        <li>We do not source or trade precious metals originating from sanctioned, conflictaffected, or highrisk areas unless enhanced due diligence is conducted and risks are mitigated.</li>
+        <li>We commit to full compliance with this Supply Chain Policy in all interactions with LBH Bullion Gold Trading L.L.C.</li>
+        <li>We are open to collaborating on improvements to responsible sourcing practices where necessary.</li>
       </ul>
 
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px; page-break-inside: avoid;">
-        <div style="width: 60%;">
-          <p style="font-size: 10pt; margin: 0 0 4px 0;">By signing this document, we confirm full adherence:</p>
-          <p style="font-size: 10pt; font-weight: bold; margin: 0 0 35px 0;">Company: ${company}</p>
-          <div style="border-top: 1px solid #000; width: 230px; padding-top: 5px;">
-            <p style="font-size: 9.5pt; font-weight: bold; margin: 0;">Authorized Signature: ____________________</p>
-            <p style="font-size: 9pt; margin: 2px 0 0 0;">Name: <strong>${signatory}</strong></p>
-            <p style="font-size: 9pt; color: #444; margin: 2px 0 0 0;">Title: ${designation}</p>
-            <p style="font-size: 9pt; color: #444; margin: 2px 0 0 0;">Date: ${dateStr}</p>
-          </div>
-        </div>
-        <div style="width: 35%; text-align: center;">
-          <div style="border: 2px dashed #888; width: 130px; height: 90px; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 8.5pt; color: #666; border-radius: 4px;">
-            [ Official Stamp ]
-          </div>
-        </div>
+      <div style="font-size: 10pt; line-height: 1.6; margin-top: 20px;">
+        <div>Company Name: <strong>${company}</strong></div>
+        <div>Authorized Signature: _________________________________</div>
+        <div>Name & Title: <strong>${signatory}</strong></div>
+        <div>Date: <u>${dateStr}</u></div>
       </div>
     `;
   }
 
+  // 6. CDD FORM - INDIVIDUAL (matches CDD_FORM_-_INDIVIDUAL.docx)
   if (type === 'cdd') {
     const form = document.getElementById('online-form-cdd');
-    const name = getVal(form, 'cdd_full_name', '______________________________');
-    const nationality = getVal(form, 'cdd_nationality', '_______________');
-    const idNo = getVal(form, 'cdd_id_no', '_______________');
-    const dob = getVal(form, 'cdd_dob', '_______________');
-    const address = getVal(form, 'cdd_address', '_______________');
-    const phone = getVal(form, 'cdd_phone', '_______________');
-    const email = getVal(form, 'cdd_email', '_______________');
-    const occupation = getVal(form, 'cdd_occupation', '_______________');
-    const sourceFunds = getVal(form, 'cdd_source_funds', 'Business Commercial Activity');
-    const annualTurnover = getVal(form, 'cdd_annual_turnover', 'Above AED 1,000,000');
+    const invoiceNo = getVal(form, 'cdd_invoice_no', '………………….');
+    const name = getVal(form, 'cdd_full_name', '…………………………………………………………………………………………');
+    const occupation = getVal(form, 'cdd_occupation', '…………………………………………………');
+    const pobox = getVal(form, 'cdd_pobox', '…………………………………………');
+    const doorNo = getVal(form, 'cdd_door_no', '………………..');
+    const address = getVal(form, 'cdd_address', '…………………………………………………………………………………………');
+    const telephone = getVal(form, 'cdd_telephone', '……………………………………………..');
+    const mobile = getVal(form, 'cdd_mobile', '…………………………………………….');
+    const dob = getVal(form, 'cdd_dob', '……………………………');
+    const resStatus = getVal(form, 'cdd_res_status', 'RESIDENT');
+    const nationality = getVal(form, 'cdd_nationality', '…………………………');
+    const countryBirth = getVal(form, 'cdd_country_birth', '………………………');
+    const pepStatus = getVal(form, 'cdd_pep_status', 'NO');
+    const idType = getVal(form, 'cdd_id_type', 'PASSPORT');
+    const idNumber = getVal(form, 'cdd_id_number', '……………………………………………….');
+    const issuingCountry = getVal(form, 'cdd_issuing_country', '……………………………………………');
+    const issueDate = getVal(form, 'cdd_issue_date', '………………………………………………….');
+    const expiryDate = getVal(form, 'cdd_expiry_date', '……………………………………………………');
+    const income = getVal(form, 'cdd_income', 'ABOVE 100,000');
+    const sourceIncome = getVal(form, 'cdd_source_income', 'BUSINESS');
 
     return `
-      <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 18px;">
-        <h2 style="font-size: 14pt; font-weight: bold; margin: 0; text-transform: uppercase;">CUSTOMER DUE DILIGENCE (CDD) FORM</h2>
-        <p style="font-size: 9pt; color: #555; margin: 3px 0 0 0;">LBH Bullion Gold Trading L.L.C - AML/CFT KYC Profile</p>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 10.5pt;">
+        <div>DATE: <u>${dateStr}</u></div>
+        <div>INVOICE NO: <u>${invoiceNo}</u></div>
       </div>
 
-      <div style="display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 9.5pt;">
-        <div><strong>Record Ref:</strong> LBH/CDD/${new Date().getFullYear()}</div>
-        <div><strong>Date:</strong> <u>${dateStr}</u></div>
-      </div>
-
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 9pt;">
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 9.5pt;">
         <tbody>
           <tr>
-            <td style="border: 1px solid #000; padding: 6px; width: 25%; background-color: #f7f7f7;"><strong>Full Legal Name:</strong></td>
-            <td style="border: 1px solid #000; padding: 6px; width: 75%;" colspan="3"><strong>${name}</strong></td>
+            <td style="border: 1px solid #000; padding: 6px;" colspan="2">FULL NAME: <strong>${name}</strong></td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 6px; background-color: #f7f7f7;"><strong>Nationality:</strong></td>
-            <td style="border: 1px solid #000; padding: 6px; width: 25%;"><strong>${nationality}</strong></td>
-            <td style="border: 1px solid #000; padding: 6px; width: 20%; background-color: #f7f7f7;"><strong>Date of Birth:</strong></td>
-            <td style="border: 1px solid #000; padding: 6px; width: 30%;"><strong>${dob}</strong></td>
+            <td style="border: 1px solid #000; padding: 6px;">OCCUPATION: <strong>${occupation}</strong></td>
+            <td style="border: 1px solid #000; padding: 6px;">P.O BOX: <strong>${pobox}</strong> &nbsp;&nbsp; DOOR NO: <strong>${doorNo}</strong></td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 6px; background-color: #f7f7f7;"><strong>Passport / EID No:</strong></td>
-            <td style="border: 1px solid #000; padding: 6px;" colspan="3"><strong>${idNo}</strong></td>
+            <td style="border: 1px solid #000; padding: 6px;" colspan="2">ADDRESS: <strong>${address}</strong></td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 6px; background-color: #f7f7f7;"><strong>Residential Address:</strong></td>
-            <td style="border: 1px solid #000; padding: 6px;" colspan="3">${address}</td>
+            <td style="border: 1px solid #000; padding: 6px;">TELEPHONE: <strong>${telephone}</strong></td>
+            <td style="border: 1px solid #000; padding: 6px;">MOBILE PHONE: <strong>${mobile}</strong></td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 6px; background-color: #f7f7f7;"><strong>Mobile Phone:</strong></td>
-            <td style="border: 1px solid #000; padding: 6px;">${phone}</td>
-            <td style="border: 1px solid #000; padding: 6px; background-color: #f7f7f7;"><strong>Email Address:</strong></td>
-            <td style="border: 1px solid #000; padding: 6px;">${email}</td>
+            <td style="border: 1px solid #000; padding: 6px;">DATE OF BIRTH: <strong>${dob}</strong></td>
+            <td style="border: 1px solid #000; padding: 6px;">RESIDENTIAL STATUS: <strong>${resStatus}</strong></td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 6px; background-color: #f7f7f7;"><strong>Occupation / Company:</strong></td>
-            <td style="border: 1px solid #000; padding: 6px;" colspan="3">${occupation}</td>
+            <td style="border: 1px solid #000; padding: 6px;">NATIONALITY: <strong>${nationality}</strong></td>
+            <td style="border: 1px solid #000; padding: 6px;">COUNTRY OF BIRTH: <strong>${countryBirth}</strong> &nbsp;&nbsp; PEP STATUS: <strong>${pepStatus}</strong></td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 6px; background-color: #f7f7f7;"><strong>Source of Funds:</strong></td>
-            <td style="border: 1px solid #000; padding: 6px;">${sourceFunds}</td>
-            <td style="border: 1px solid #000; padding: 6px; background-color: #f7f7f7;"><strong>Expected Turnover:</strong></td>
-            <td style="border: 1px solid #000; padding: 6px;">${annualTurnover}</td>
+            <td style="border: 1px solid #000; padding: 6px;">ID TYPE: <strong>${idType}</strong></td>
+            <td style="border: 1px solid #000; padding: 6px;">ID NUMBER: <strong>${idNumber}</strong></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #000; padding: 6px;">ISSUING COUNTRY: <strong>${issuingCountry}</strong></td>
+            <td style="border: 1px solid #000; padding: 6px;">ISSUE DATE: <strong>${issueDate}</strong> &nbsp;&nbsp; EXPIRY: <strong>${expiryDate}</strong></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #000; padding: 6px;">EXPECTED ANNUAL INCOME (AED): <strong>${income}</strong></td>
+            <td style="border: 1px solid #000; padding: 6px;">SOURCE OF INCOME: <strong>${sourceIncome}</strong></td>
           </tr>
         </tbody>
       </table>
 
-      <div style="font-size: 9pt; line-height: 1.5; margin-bottom: 20px; text-align: justify;">
-        <strong>CUSTOMER DECLARATION:</strong><br>
-        I hereby certify that all information and particulars provided in this Customer Due Diligence profile are true, complete, and accurate. I consent to LBH Bullion Gold Trading L.L.C verifying these details against official sanction registers, government databases, and commercial registries in compliance with UAE Anti-Money Laundering and Counter-Terrorist Financing regulations.
-      </div>
+      <div style="font-weight: bold; font-size: 10pt; margin-bottom: 4px;">DECLARATION:</div>
+      <p style="text-align: justify; font-size: 9.5pt; line-height: 1.5; margin-bottom: 25px;">
+        I hereby certify that all the information I have provided is true and accurate. I agree to comply with the AML REGULATION and GUIDELINES of UAE with other relevant supervisory authorities/ regulatory. I consent to conduct transactions with entity complying with all applicable standards and regulations.
+      </p>
 
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 25px; page-break-inside: avoid;">
-        <div style="width: 60%;">
-          <div style="border-top: 1px solid #000; width: 230px; padding-top: 5px;">
-            <p style="font-size: 9.5pt; font-weight: bold; margin: 0;">Customer Signature: ____________________</p>
-            <p style="font-size: 9pt; margin: 2px 0 0 0;">Name: <strong>${name}</strong></p>
-            <p style="font-size: 9pt; color: #444; margin: 2px 0 0 0;">Date: ${dateStr}</p>
-          </div>
-        </div>
-        <div style="width: 35%; text-align: center;">
-          <div style="border: 2px dashed #888; width: 130px; height: 85px; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 8.5pt; color: #666; border-radius: 4px;">
-            [ LBH Compliance Stamp ]
-          </div>
-        </div>
+      <div style="display: flex; justify-content: space-between; font-size: 10pt; margin-top: 30px;">
+        <div>Customer Signature: …………………………………</div>
+        <div>Authorised signature: …………………………………</div>
       </div>
     `;
   }
@@ -549,19 +464,19 @@ function buildDocumentInnerHtml(type) {
 }
 
 /**
- * Generates the full standalone document HTML (for isolated printing or Word .doc export).
+ * Generates the full standalone document HTML for printing or Word .doc export.
  */
 function generateDocumentHtml(type, forWord = false) {
   const titles = {
-    auth: 'LBH Bullion - Account Authorization Letter',
-    funds: 'LBH Bullion - Declaration Source of Funds',
-    pep: 'LBH Bullion - PEP Declaration Form',
-    sanctions: 'LBH Bullion - Sanctions Undertaking Letter',
-    supply: 'LBH Bullion - Supply Chain Policy Undertaking',
-    cdd: 'LBH Bullion - Customer Due Diligence Form'
+    auth: 'Authorization Letter',
+    funds: 'Declaration Source of Funds',
+    sanctions: 'Undertaking Letter',
+    pep: 'PEP Declaration Form',
+    supply: 'Supply Chain Policy & Undertaking',
+    cdd: 'CDD Form - Individual'
   };
 
-  const title = titles[type] || 'LBH Bullion Compliance Document';
+  const title = titles[type] || 'Compliance Document';
   const innerHtml = buildDocumentInnerHtml(type);
 
   if (forWord) {
@@ -580,10 +495,10 @@ function generateDocumentHtml(type, forWord = false) {
         </xml>
         <![endif]-->
         <style>
-          @page { size: 21cm 29.7cm; margin: 2cm 2cm 2cm 2cm; mso-page-orientation: portrait; }
-          body { font-family: 'Times New Roman', Times, serif; font-size: 11pt; line-height: 1.5; color: #000; }
-          table { border-collapse: collapse; width: 100%; margin: 15px 0; }
-          th, td { border: 1px solid #000; padding: 6px 10px; font-size: 10pt; }
+          @page { size: 21cm 29.7cm; margin: 2cm; mso-page-orientation: portrait; }
+          body { font-family: 'Times New Roman', Times, serif; font-size: 11pt; line-height: 1.45; color: #000; }
+          table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+          th, td { border: 1px solid #000; padding: 6px 8px; font-size: 10pt; }
           th { background-color: #f2f2f2; font-weight: bold; }
         </style>
       </head>
@@ -611,7 +526,7 @@ function generateDocumentHtml(type, forWord = false) {
         body {
           font-family: 'Times New Roman', Times, Georgia, serif;
           font-size: 11pt;
-          line-height: 1.5;
+          line-height: 1.45;
           color: #000;
           margin: 0;
           padding: 0;
@@ -653,20 +568,19 @@ function generateDocumentHtml(type, forWord = false) {
 }
 
 /**
- * Triggers printing of ONLY the filled Word document using an isolated iframe.
- * ZERO website content (no headers, no tabs, no buttons, no footers) is printed.
+ * Triggers isolated printing of ONLY the filled official document.
  */
 function printOfficialDocument(type) {
   const fullHtml = generateDocumentHtml(type, false);
   const innerHtml = buildDocumentInnerHtml(type);
 
-  // Update in-page fallback print sheet for Ctrl+P
+  // Update fallback in-page sheet
   const sheet = document.getElementById('document-print-sheet');
   if (sheet) {
     sheet.innerHTML = innerHtml;
   }
 
-  // Create or reuse hidden isolated print iframe
+  // Create or reuse hidden isolated iframe
   let frame = document.getElementById('document-print-iframe');
   if (!frame) {
     frame = document.createElement('iframe');
@@ -686,7 +600,6 @@ function printOfficialDocument(type) {
   doc.write(fullHtml);
   doc.close();
 
-  // Trigger print dialog on iframe window
   setTimeout(() => {
     frame.contentWindow.focus();
     frame.contentWindow.print();
@@ -694,19 +607,19 @@ function printOfficialDocument(type) {
 }
 
 /**
- * Generates and downloads a native Microsoft Word (.doc) file pre-filled with the user's data.
+ * Generates and downloads the pre-filled Word document (.doc).
  */
 function downloadFilledWordDoc(type) {
   const fileNames = {
-    auth: 'LBH_Authorization_Letter_Filled.doc',
-    funds: 'LBH_Declaration_Source_of_Funds_Filled.doc',
-    pep: 'LBH_PEP_Declaration_Filled.doc',
-    sanctions: 'LBH_Sanctions_Undertaking_Filled.doc',
-    supply: 'LBH_Supply_Chain_Policy_Filled.doc',
-    cdd: 'LBH_Customer_Due_Diligence_Filled.doc'
+    auth: 'Authorisation_Letter_Filled.doc',
+    funds: 'Declaration_Source_of_Funds_Filled.doc',
+    sanctions: 'Undertaking_Letter_Filled.doc',
+    pep: 'PEP_Declaration_Filled.doc',
+    supply: 'Supply_Chain_Policy_Filled.doc',
+    cdd: 'CDD_Form_Individual_Filled.doc'
   };
 
-  const fileName = fileNames[type] || 'LBH_Compliance_Document_Filled.doc';
+  const fileName = fileNames[type] || 'Compliance_Document_Filled.doc';
   const wordContent = generateDocumentHtml(type, true);
 
   const blob = new Blob(['\ufeff', wordContent], {
