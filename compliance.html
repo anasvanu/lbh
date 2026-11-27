@@ -42,15 +42,24 @@
       border-color: #B08B40;
     }
     @media print {
-      header, footer, .no-print, #mobile-menu, .md\:hidden {
+      /* Suppress the entire website UI, header, hero, footer, and other elements */
+      body > *:not(#document-print-sheet) {
         display: none !important;
       }
-      body {
+      #document-print-sheet {
+        display: block !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
         background: #FFFFFF !important;
         color: #000000 !important;
       }
-      .printable-section {
-        display: block !important;
+      @page {
+        size: A4 portrait;
+        margin: 18mm 20mm;
       }
     }
   </style>
@@ -334,17 +343,23 @@
 
       <!-- Online Form Selection Tabs -->
       <div class="flex flex-wrap items-center justify-center gap-2 mb-8 no-print">
-        <button onclick="switchOnlineForm('auth')" id="oform-btn-auth" class="online-form-tab active px-4 py-2 rounded-lg border border-softBorder bg-white text-xs font-semibold font-mono uppercase transition-all">
+        <button onclick="switchOnlineForm('auth')" id="oform-btn-auth" class="online-form-tab active px-3.5 py-2 rounded-lg border border-softBorder bg-white text-xs font-semibold font-mono uppercase transition-all">
           1. Authorization Letter
         </button>
-        <button onclick="switchOnlineForm('funds')" id="oform-btn-funds" class="online-form-tab px-4 py-2 rounded-lg border border-softBorder bg-white text-xs font-semibold font-mono uppercase text-mutedText transition-all">
+        <button onclick="switchOnlineForm('funds')" id="oform-btn-funds" class="online-form-tab px-3.5 py-2 rounded-lg border border-softBorder bg-white text-xs font-semibold font-mono uppercase text-mutedText transition-all">
           2. Source of Funds
         </button>
-        <button onclick="switchOnlineForm('pep')" id="oform-btn-pep" class="online-form-tab px-4 py-2 rounded-lg border border-softBorder bg-white text-xs font-semibold font-mono uppercase text-mutedText transition-all">
+        <button onclick="switchOnlineForm('pep')" id="oform-btn-pep" class="online-form-tab px-3.5 py-2 rounded-lg border border-softBorder bg-white text-xs font-semibold font-mono uppercase text-mutedText transition-all">
           3. PEP Declaration
         </button>
-        <button onclick="switchOnlineForm('sanctions')" id="oform-btn-sanctions" class="online-form-tab px-4 py-2 rounded-lg border border-softBorder bg-white text-xs font-semibold font-mono uppercase text-mutedText transition-all">
+        <button onclick="switchOnlineForm('sanctions')" id="oform-btn-sanctions" class="online-form-tab px-3.5 py-2 rounded-lg border border-softBorder bg-white text-xs font-semibold font-mono uppercase text-mutedText transition-all">
           4. Sanctions Undertaking
+        </button>
+        <button onclick="switchOnlineForm('supply')" id="oform-btn-supply" class="online-form-tab px-3.5 py-2 rounded-lg border border-softBorder bg-white text-xs font-semibold font-mono uppercase text-mutedText transition-all">
+          5. Supply Chain Policy
+        </button>
+        <button onclick="switchOnlineForm('cdd')" id="oform-btn-cdd" class="online-form-tab px-3.5 py-2 rounded-lg border border-softBorder bg-white text-xs font-semibold font-mono uppercase text-mutedText transition-all">
+          6. CDD Due Diligence
         </button>
       </div>
 
@@ -369,9 +384,9 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label class="block text-mutedText mb-1 font-sans">Authorized Signatory Full Name *</label>
+              <label class="block text-mutedText mb-1 font-sans">Authorized Signatory Name *</label>
               <input type="text" required name="signatory_name" placeholder="Full Legal Name" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
             </div>
             <div>
@@ -381,6 +396,10 @@
             <div>
               <label class="block text-mutedText mb-1 font-sans">Passport / Emirates ID No. *</label>
               <input type="text" required name="signatory_id" placeholder="ID / Passport Number" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Signatory Title / Designation *</label>
+              <input type="text" required name="signatory_designation" placeholder="e.g. Managing Director" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
             </div>
           </div>
 
@@ -424,12 +443,15 @@
             </label>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button type="submit" class="w-full py-3 rounded-md bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-sm">
-              Submit Authorization Digitally
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <button type="submit" class="w-full py-3 px-4 rounded-md bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-sm flex items-center justify-center">
+              <i data-lucide="send" class="w-4 h-4 mr-2"></i> Submit Digitally
             </button>
-            <button type="button" onclick="window.print()" class="w-full py-3 rounded-md bg-white border border-softBorder hover:border-gold-500 text-charcoal font-semibold text-xs tracking-wider uppercase transition-all">
-              Print / Save As PDF
+            <button type="button" onclick="printOfficialDocument('auth')" class="w-full py-3 px-4 rounded-md bg-white border border-gold-600 hover:bg-gold-50 text-gold-700 font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center shadow-sm">
+              <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print Filled Doc (PDF)
+            </button>
+            <button type="button" onclick="downloadFilledWordDoc('auth')" class="w-full py-3 px-4 rounded-md bg-beige-100 border border-softBorder hover:border-gold-500 text-charcoal font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center">
+              <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Download Filled .DOC
             </button>
           </div>
         </form>
@@ -449,6 +471,17 @@
             <div>
               <label class="block text-mutedText mb-1 font-sans">Corporate Email *</label>
               <input type="email" required name="email" placeholder="compliance@domain.com" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Authorized Signatory Name *</label>
+              <input type="text" required name="signatory_name" placeholder="Full Legal Name" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Designation / Role *</label>
+              <input type="text" required name="designation" placeholder="e.g. Finance Director" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
             </div>
           </div>
 
@@ -475,12 +508,15 @@
             </label>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button type="submit" class="w-full py-3 rounded-md bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-sm">
-              Submit Declaration Digitally
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <button type="submit" class="w-full py-3 px-4 rounded-md bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-sm flex items-center justify-center">
+              <i data-lucide="send" class="w-4 h-4 mr-2"></i> Submit Digitally
             </button>
-            <button type="button" onclick="window.print()" class="w-full py-3 rounded-md bg-white border border-softBorder hover:border-gold-500 text-charcoal font-semibold text-xs tracking-wider uppercase transition-all">
-              Print / Save As PDF
+            <button type="button" onclick="printOfficialDocument('funds')" class="w-full py-3 px-4 rounded-md bg-white border border-gold-600 hover:bg-gold-50 text-gold-700 font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center shadow-sm">
+              <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print Filled Doc (PDF)
+            </button>
+            <button type="button" onclick="downloadFilledWordDoc('funds')" class="w-full py-3 px-4 rounded-md bg-beige-100 border border-softBorder hover:border-gold-500 text-charcoal font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center">
+              <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Download Filled .DOC
             </button>
           </div>
         </form>
@@ -492,7 +528,7 @@
             <p class="text-[11px] text-mutedText font-sans">Mandatory verification under UAE AML/CFT regulations and FATF guidance.</p>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label class="block text-mutedText mb-1 font-sans">Full Name of Applicant / Signatory *</label>
               <input type="text" required name="pep_declarant_name" placeholder="Full Legal Name" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
@@ -500,6 +536,10 @@
             <div>
               <label class="block text-mutedText mb-1 font-sans">Company Legal Name *</label>
               <input type="text" required name="pep_company_name" placeholder="Company Name" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Designation / Role *</label>
+              <input type="text" required name="pep_designation" placeholder="e.g. Managing Director" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
             </div>
           </div>
 
@@ -541,12 +581,15 @@
             </label>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button type="submit" class="w-full py-3 rounded-md bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-sm">
-              Submit PEP Declaration Digitally
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <button type="submit" class="w-full py-3 px-4 rounded-md bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-sm flex items-center justify-center">
+              <i data-lucide="send" class="w-4 h-4 mr-2"></i> Submit Digitally
             </button>
-            <button type="button" onclick="window.print()" class="w-full py-3 rounded-md bg-white border border-softBorder hover:border-gold-500 text-charcoal font-semibold text-xs tracking-wider uppercase transition-all">
-              Print / Save As PDF
+            <button type="button" onclick="printOfficialDocument('pep')" class="w-full py-3 px-4 rounded-md bg-white border border-gold-600 hover:bg-gold-50 text-gold-700 font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center shadow-sm">
+              <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print Filled Doc (PDF)
+            </button>
+            <button type="button" onclick="downloadFilledWordDoc('pep')" class="w-full py-3 px-4 rounded-md bg-beige-100 border border-softBorder hover:border-gold-500 text-charcoal font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center">
+              <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Download Filled .DOC
             </button>
           </div>
         </form>
@@ -569,7 +612,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label class="block text-mutedText mb-1 font-sans">Declarant Nationality *</label>
               <input type="text" required name="sanctions_nationality" placeholder="Nationality" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
@@ -578,13 +621,17 @@
               <label class="block text-mutedText mb-1 font-sans">Passport / Emirates ID No. *</label>
               <input type="text" required name="sanctions_id_no" placeholder="Passport / ID Number" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
             </div>
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Title / Designation *</label>
+              <input type="text" required name="sanctions_designation" placeholder="e.g. Owner & UBO" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
           </div>
 
           <div class="p-4 rounded-xl bg-white border border-softBorder text-mutedText font-sans space-y-2 leading-relaxed">
             <p><strong>By submitting this digital undertaking, I confirm and warrant that:</strong></p>
             <ul class="list-disc pl-5 space-y-1">
               <li>Neither our entity nor any related parties are dealing with sanctioned countries listed by the UAE, United Nations, US OFAC, European Union, or UK OFSI.</li>
-              <li>Our entity is not owned or controlled by, nor operating as an agent of, the Governments of Iran, North Korea, or Myanmar.</li>
+              <li>Our entity is not owned or controlled by, nor operating as an agent of, the Governments of Iran, North Korea, Syria, Cuba, or Myanmar.</li>
               <li>Neither I nor any key executive is acting as a nominee of any person residing in or national of any sanctioned country.</li>
               <li>Funds used for bullion trading do not consist of proceeds from any unlawful origin or criminal conduct.</li>
             </ul>
@@ -597,12 +644,156 @@
             </label>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button type="submit" class="w-full py-3 rounded-md bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-sm">
-              Submit Undertaking Digitally
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <button type="submit" class="w-full py-3 px-4 rounded-md bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-sm flex items-center justify-center">
+              <i data-lucide="send" class="w-4 h-4 mr-2"></i> Submit Digitally
             </button>
-            <button type="button" onclick="window.print()" class="w-full py-3 rounded-md bg-white border border-softBorder hover:border-gold-500 text-charcoal font-semibold text-xs tracking-wider uppercase transition-all">
-              Print / Save As PDF
+            <button type="button" onclick="printOfficialDocument('sanctions')" class="w-full py-3 px-4 rounded-md bg-white border border-gold-600 hover:bg-gold-50 text-gold-700 font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center shadow-sm">
+              <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print Filled Doc (PDF)
+            </button>
+            <button type="button" onclick="downloadFilledWordDoc('sanctions')" class="w-full py-3 px-4 rounded-md bg-beige-100 border border-softBorder hover:border-gold-500 text-charcoal font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center">
+              <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Download Filled .DOC
+            </button>
+          </div>
+        </form>
+
+        <!-- 5. SUPPLY CHAIN POLICY & UNDERTAKING -->
+        <form id="online-form-supply" onsubmit="handleDigitalFormSubmit(event, 'Supply Chain Policy & Undertaking')" class="hidden space-y-5 text-xs font-mono">
+          <div class="border-b border-softBorder pb-3">
+            <h3 class="font-serif text-lg font-bold text-charcoal">Supply Chain Policy Undertaking (Online Submission)</h3>
+            <p class="text-[11px] text-mutedText font-sans">Commitment to OECD Annex II due diligence and responsible mineral supply chains.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Company Legal Name *</label>
+              <input type="text" required name="supply_company_name" placeholder="Supplier / Counterparty Legal Name" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Trade License / Reg Number *</label>
+              <input type="text" required name="supply_license_no" placeholder="Commercial License / Tax ID" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Authorized Signatory Name *</label>
+              <input type="text" required name="supply_signatory_name" placeholder="Full Legal Name" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Designation / Role *</label>
+              <input type="text" required name="supply_designation" placeholder="e.g. Managing Director / Compliance Head" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white border border-softBorder text-mutedText font-sans space-y-2 leading-relaxed">
+            <p><strong>OECD 5-Step Due Diligence Framework Commitments:</strong></p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Establish robust company management systems and supply chain transparency.</li>
+              <li>Identify and assess risks in our precious metals and gold sourcing supply chains.</li>
+              <li>Design and implement strategy to respond to and mitigate identified supply risks.</li>
+              <li>Ensure no minerals are sourced from conflict-affected or non-compliant artisanal origins.</li>
+            </ul>
+          </div>
+
+          <div class="p-3.5 rounded-lg bg-beige-100 text-[11px] font-sans text-mutedText leading-relaxed">
+            <label class="flex items-start space-x-2">
+              <input type="checkbox" required class="mt-0.5 rounded text-gold-600 focus:ring-gold-500">
+              <span>We confirm that our company adheres strictly to the OECD Due Diligence Guidance and UAE Ministry of Economy responsible sourcing regulations.</span>
+            </label>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <button type="submit" class="w-full py-3 px-4 rounded-md bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-sm flex items-center justify-center">
+              <i data-lucide="send" class="w-4 h-4 mr-2"></i> Submit Digitally
+            </button>
+            <button type="button" onclick="printOfficialDocument('supply')" class="w-full py-3 px-4 rounded-md bg-white border border-gold-600 hover:bg-gold-50 text-gold-700 font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center shadow-sm">
+              <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print Filled Doc (PDF)
+            </button>
+            <button type="button" onclick="downloadFilledWordDoc('supply')" class="w-full py-3 px-4 rounded-md bg-beige-100 border border-softBorder hover:border-gold-500 text-charcoal font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center">
+              <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Download Filled .DOC
+            </button>
+          </div>
+        </form>
+
+        <!-- 6. CUSTOMER DUE DILIGENCE (CDD) FORM -->
+        <form id="online-form-cdd" onsubmit="handleDigitalFormSubmit(event, 'Customer Due Diligence (CDD) Form')" class="hidden space-y-5 text-xs font-mono">
+          <div class="border-b border-softBorder pb-3">
+            <h3 class="font-serif text-lg font-bold text-charcoal">Customer Due Diligence (CDD) Profile (Online Submission)</h3>
+            <p class="text-[11px] text-mutedText font-sans">Full individual / beneficial owner due diligence questionnaire under UAE AML guidelines.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Full Legal Name *</label>
+              <input type="text" required name="cdd_full_name" placeholder="Full Legal Name" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Nationality *</label>
+              <input type="text" required name="cdd_nationality" placeholder="Nationality" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Date of Birth *</label>
+              <input type="date" required name="cdd_dob" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Passport / Emirates ID No. *</label>
+              <input type="text" required name="cdd_id_no" placeholder="Passport or Emirates ID" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Occupation / Employer *</label>
+              <input type="text" required name="cdd_occupation" placeholder="e.g. Managing Director - Trading" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Mobile Number *</label>
+              <input type="tel" required name="cdd_phone" placeholder="+971 50 XXX XXXX" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Email Address *</label>
+              <input type="email" required name="cdd_email" placeholder="client@domain.com" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-mutedText mb-1 font-sans">Source of Funds *</label>
+              <input type="text" required name="cdd_source_funds" placeholder="e.g. Business Trading Revenue" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-mutedText mb-1 font-sans">Residential / Business Address *</label>
+            <input type="text" required name="cdd_address" placeholder="Building, Street, Area, City, Country" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-mutedText mb-1 font-sans">Expected Annual Bullion Turnover *</label>
+            <select name="cdd_annual_turnover" class="w-full bg-white border border-softBorder rounded-md px-3 py-2 text-charcoal focus:border-gold-500 focus:outline-none">
+              <option value="AED 500,000 to AED 2,000,000">AED 500,000 to AED 2,000,000</option>
+              <option value="AED 2,000,000 to AED 10,000,000">AED 2,000,000 to AED 10,000,000</option>
+              <option value="Above AED 10,000,000">Above AED 10,000,000 (Institutional)</option>
+            </select>
+          </div>
+
+          <div class="p-3.5 rounded-lg bg-beige-100 text-[11px] font-sans text-mutedText leading-relaxed">
+            <label class="flex items-start space-x-2">
+              <input type="checkbox" required class="mt-0.5 rounded text-gold-600 focus:ring-gold-500">
+              <span>I confirm all information in this Customer Due Diligence profile is complete, true, and legally binding.</span>
+            </label>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <button type="submit" class="w-full py-3 px-4 rounded-md bg-gold-600 hover:bg-gold-700 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-sm flex items-center justify-center">
+              <i data-lucide="send" class="w-4 h-4 mr-2"></i> Submit Digitally
+            </button>
+            <button type="button" onclick="printOfficialDocument('cdd')" class="w-full py-3 px-4 rounded-md bg-white border border-gold-600 hover:bg-gold-50 text-gold-700 font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center shadow-sm">
+              <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Print Filled Doc (PDF)
+            </button>
+            <button type="button" onclick="downloadFilledWordDoc('cdd')" class="w-full py-3 px-4 rounded-md bg-beige-100 border border-softBorder hover:border-gold-500 text-charcoal font-semibold text-xs tracking-wider uppercase transition-all flex items-center justify-center">
+              <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Download Filled .DOC
             </button>
           </div>
         </form>
@@ -913,7 +1104,11 @@
     </div>
   </div>
 
+  <!-- HIDDEN PRINT CONTAINER FOR ISOLATED OFFICIAL DOCUMENT PRINTING -->
+  <div id="document-print-sheet" class="hidden"></div>
+
   <script src="js/main.js"></script>
+  <script src="js/kyc-documents.js"></script>
   <script>
     function switchOnlineForm(formId) {
       document.querySelectorAll('#digital-forms form').forEach(f => f.classList.add('hidden'));
@@ -924,6 +1119,12 @@
       if (target) target.classList.remove('hidden');
       if (btn) btn.classList.add('active');
       if (typeof lucide !== 'undefined') lucide.createIcons();
+
+      // Pre-render the document into print sheet
+      if (typeof buildDocumentInnerHtml === 'function') {
+        const sheet = document.getElementById('document-print-sheet');
+        if (sheet) sheet.innerHTML = buildDocumentInnerHtml(formId);
+      }
     }
 
     async function handleDigitalFormSubmit(e, formTitle) {
