@@ -1,0 +1,104 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset='utf-8'>
+<title>Authorization Letter - LBH Bullion Gold Trading L.L.C</title>
+<style>
+body { font-family: 'Calibri', 'Arial', sans-serif; font-size: 11pt; line-height: 1.5; color: #1A1815; margin: 40px; }
+.header-box { border-bottom: 2px solid #C5A059; padding-bottom: 12px; margin-bottom: 24px; }
+.company-title { font-size: 16pt; font-weight: bold; color: #1A1815; text-transform: uppercase; }
+.gold-sub { font-size: 10pt; color: #B08B40; font-weight: bold; }
+.doc-title { font-size: 14pt; font-weight: bold; text-align: center; margin: 20px 0; text-decoration: underline; color: #1A1815; }
+table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 20px; }
+th, td { border: 1px solid #777777; padding: 8px 10px; font-size: 10pt; text-align: left; }
+th { background-color: #F7F3EB; font-weight: bold; color: #1A1815; }
+.note { font-style: italic; color: #666057; font-size: 9.5pt; margin-bottom: 15px; }
+ul { margin: 10px 0 15px 20px; padding: 0; }
+li { margin-bottom: 6px; }
+.sign-box { margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<div class='header-box'>
+  <div class='note'>[PLEASE PRINT ON CLIENT COMPANY OFFICIAL LETTERHEAD]</div>
+  <div class='company-title'>CLIENT COMPANY NAME: ____________________________________</div>
+  <div>Registered Address: ___________________________________________________________</div>
+  <div>Commercial License / Reg No: __________________ Tel: _________________________</div>
+</div>
+
+<div style='margin-bottom: 15px;'>
+  <strong>Date:</strong> _____ / _____ / 202___<br>
+  <strong>To:</strong> LBH BULLION GOLD TRADING L.L.C<br>
+  Office No. 403, Al Dhagaya, Al Ras, Deira, Dubai, UAE<br>
+  Tel: +971 4 262 6916 | Email: lbhbullion@gmail.com
+</div>
+
+<div class='doc-title'>SUBJECT: ACCOUNT AUTHORIZATION LETTER</div>
+
+<p>Dear Sir / Madam,</p>
+
+<p>
+I, the undersigned, Mr. / Ms. ____________________________________________________, of __________________________ nationality, holding Passport No. ________________________ and Emirates ID No. ___________________________, in my capacity as the Authorized Signatory of <strong>[Insert Client Company Name]</strong>:
+</p>
+
+<p>
+I hereby authorize the following personnel individually / jointly to operate our precious metals bullion trading account with <strong>LBH BULLION GOLD TRADING L.L.C</strong>.
+</p>
+
+<p>They have full power and authority to:</p>
+<ul>
+  <li>Fix gold and silver spot prices and execute trade contracts.</li>
+  <li>Deliver physical gold and silver bullion.</li>
+  <li>Take delivery of physical gold and silver bullion from vault custody or trading counter.</li>
+  <li>Sign all delivery notes, assay certificates, invoices, vouchers, and statements of account.</li>
+  <li>Sign and issue receipts and payment vouchers in connection with delivery and settlement.</li>
+  <li>Collect cheques, bank drafts, and cash settlements in connection with bullion delivery.</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style='width: 8%; text-align: center;'>S.N</th>
+      <th style='width: 28%;'>Authorized Personnel Name</th>
+      <th style='width: 22%;'>Passport / EID No.</th>
+      <th style='width: 22%;'>Specimen Signature</th>
+      <th style='width: 20%;'>Contact Phone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style='text-align: center;'>1</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style='text-align: center;'>2</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style='text-align: center;'>3</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class='sign-box'>
+  <p>Yours truly,</p>
+  <br><br>
+  <p>___________________________________________<br>
+  <strong>Authorized Signatory Name:</strong><br>
+  <strong>Designation / Title:</strong><br>
+  <strong>Company Name:</strong><br>
+  <strong>[Company Stamp / Seal]</strong></p>
+</div>
+
+</body>
+</html>

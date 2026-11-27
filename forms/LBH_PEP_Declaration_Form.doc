@@ -1,0 +1,101 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset='utf-8'>
+<title>PEP Declaration Form - LBH Bullion Gold Trading L.L.C</title>
+<style>
+body { font-family: 'Calibri', 'Arial', sans-serif; font-size: 11pt; line-height: 1.5; color: #1A1815; margin: 40px; }
+.header-box { border-bottom: 2px solid #C5A059; padding-bottom: 12px; margin-bottom: 24px; text-align: center; }
+.company-title { font-size: 16pt; font-weight: bold; color: #1A1815; }
+.gold-sub { font-size: 10pt; color: #B08B40; font-weight: bold; }
+.doc-title { font-size: 13pt; font-weight: bold; text-align: center; margin: 20px 0 10px 0; text-decoration: underline; }
+.box { border: 1px solid #777777; padding: 12px; margin-bottom: 15px; background-color: #FDFBF7; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 15px; }
+th, td { border: 1px solid #777777; padding: 6px 10px; font-size: 10pt; text-align: left; }
+</style>
+</head>
+<body>
+
+<div class='header-box'>
+  <div class='company-title'>LBH BULLION GOLD TRADING L.L.C</div>
+  <div class='gold-sub'>ال بي اتش بوليان جولدن للتجارة ذ.م.م</div>
+  <div style='font-size: 9.5pt; color: #666057; margin-top: 4px;'>Al Ras, Deira, Dubai, UAE | Tel: +971 4 262 6916 | Email: lbhbullion@gmail.com</div>
+</div>
+
+<div class='doc-title'>POLITICALLY EXPOSED PERSON (PEP) DECLARATION FORM</div>
+
+<p style='font-size: 9.5pt; color: #666057; font-style: italic;'>
+The information collected in this form is mandatory to comply with Federal Decree-Law No. (20) of 2018 on Anti-Money Laundering, Combating the Financing of Terrorism and Financing of Illegal Organisations, Cabinet Decision No. 109 of 2023, and FATF Recommendations.
+</p>
+
+<div class='box'>
+  <strong>Definition of Politically Exposed Person (PEP):</strong><br>
+  A Politically Exposed Person (PEP) is an individual who is or who has been entrusted with prominent public functions domestically or by a foreign government/international body. Prominent public functions include:
+  <ol style='margin: 6px 0 6px 20px;'>
+    <li>Head of State or Head of Government</li>
+    <li>Senior politician or senior government official</li>
+    <li>Senior judicial or military official</li>
+    <li>Member of a ruling royal family</li>
+    <li>Senior executive of a state-owned corporation or government-linked entity</li>
+    <li>Important political party official</li>
+  </ol>
+  <em>The definition also encompasses immediate family members (spouse, children, parents, siblings) and close business associates or personal advisers of individuals stated above.</em>
+</div>
+
+<div style='margin-bottom: 20px;'>
+  <p><strong>1. Are you or any beneficial owner/director a Politically Exposed Person (PEP)?</strong><br>
+  [&nbsp;&nbsp;&nbsp;] <strong>YES</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [&nbsp;&nbsp;&nbsp;] <strong>NO</strong></p>
+
+  <p><strong>2. Are you or the corporate entity related to, or in close partnership with, a PEP?</strong><br>
+  [&nbsp;&nbsp;&nbsp;] <strong>YES</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [&nbsp;&nbsp;&nbsp;] <strong>NO</strong></p>
+</div>
+
+<div class='box'>
+  <p><strong>3. If you answered YES to question 1 or 2, please specify details:</strong></p>
+  <table style='background-color: #FFFFFF;'>
+    <tr>
+      <td style='width: 35%;'><strong>Full Name of PEP:</strong></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><strong>Public Position / Function Held:</strong></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><strong>Country of Government / Jurisdiction:</strong></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><strong>Relationship to Applicant / Entity:</strong></td>
+      <td>[&nbsp;] Self &nbsp;&nbsp; [&nbsp;] Family Member &nbsp;&nbsp; [&nbsp;] Close Associate</td>
+    </tr>
+    <tr>
+      <td><strong>Period in Public Office:</strong></td>
+      <td>From: __________________ To: __________________</td>
+    </tr>
+  </table>
+</div>
+
+<div style='margin-top: 30px;'>
+  <strong>DECLARATION:</strong><br>
+  I hereby certify and declare that the information provided above is complete, true, and accurate to the best of my knowledge. I undertake to automatically notify <strong>LBH BULLION GOLD TRADING L.L.C</strong> in writing within 14 calendar days should there be any change in PEP status.
+</div>
+
+<div style='margin-top: 40px;'>
+  <table>
+    <tr>
+      <td style='width: 50%; padding: 15px;'>
+        <strong>Client / Applicant Signature:</strong><br><br><br>
+        Name: ____________________________________<br>
+        Designation: ______________________________<br>
+        Company Name: ____________________________<br>
+        Date: _____ / _____ / 202___
+      </td>
+      <td style='width: 50%; padding: 15px;'>
+        <strong>Company Stamp / Seal:</strong><br><br><br><br><br>
+      </td>
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>
